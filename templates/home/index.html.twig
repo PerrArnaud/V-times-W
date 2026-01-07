@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div id="logged-in-content" style="display: none;">
+        <h1>Bienvenue <span id="username"></span></h1>
+        <p>Vous êtes connecté avec succès !</p>
+        
+        <div class="mt-4">
+            <button onclick="logout()" class="btn btn-danger">Se déconnecter</button>
+        </div>
+    </div>
+    
+    <div id="logged-out-content" style="display: none;">
+        <h1>Bienvenue</h1>
+        <p>Veuillez vous connecter pour accéder à l'application.</p>
+        <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = sessionStorage.getItem('jwt_token');
+        
+        if (token) {
+            // Décoder le JWT pour obtenir les informations utilisateur
+            try {
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                
+                // Vérifier l'expiration du token
+                const now = Math.floor(Date.now() / 1000);
+                if (payload.exp && payload.exp < now) {
+                    // Token expiré
+                    sessionStorage.removeItem('jwt_token');
+                    document.getElementById('logged-out-content').style.display = 'block';
+                } else {
+                    // Token valide
+                    document.getElementById('username').textContent = payload.username || payload.name;
+                    document.getElementById('logged-in-content').style.display = 'block';
+                }
+            } catch(e) {
+                // Token invalide
+                sessionStorage.removeItem('jwt_token');
+                document.getElementById('logged-out-content').style.display = 'block';
+            }
+        } else {
+            document.getElementById('logged-out-content').style.display = 'block';
+        }
+    });
+    
+    function logout() {
+        sessionStorage.removeItem('jwt_token');
+        window.location.href = '{{ path('app_login') }}';
+    }
+</script>
+{% endblock %}
