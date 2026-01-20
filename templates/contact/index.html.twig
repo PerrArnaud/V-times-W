@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contactez-nous{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <h1 class="mb-4 text-center">Contactez-nous</h1>
+            
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    {{ form_start(form) }}
+                        <div class="mb-3">
+                            {{ form_row(form.name) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(form.email) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(form.message) }}
+                        </div>
+                        <div class="d-grid">
+                            {{ form_row(form.submit) }}
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

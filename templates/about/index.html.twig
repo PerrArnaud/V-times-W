@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}À propos{% endblock %}
+
+{% block body %}
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="text-center mb-5">À propos de V-Times</h1>
+            
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h3 class="card-title text-primary">Notre Histoire</h3>
+                    <p class="card-text">
+                        V-Times est née de la passion pour la musique vinyle et l'artisanat. Chaque horloge 
+                        que nous créons est une pièce unique, fabriquée à partir de vinyles authentiques 
+                        soigneusement sélectionnés.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h3 class="card-title text-primary">Notre Mission</h3>
+                    <p class="card-text">
+                        Donner une seconde vie aux vinyles tout en créant des objets décoratifs uniques et 
+                        fonctionnels. Nous croyons en l'économie circulaire et à la valorisation du patrimoine 
+                        musical.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h3 class="card-title text-primary">Notre Savoir-Faire</h3>
+                    <p class="card-text">
+                        Chaque horloge est fabriquée artisanalement dans notre atelier. Nous sélectionnons 
+                        des vinyles aux visuels remarquables, les transformons avec soin et y installons 
+                        un mécanisme d'horloge de qualité.
+                    </p>
+                </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <h4 class="mb-4">Découvrez nos créations</h4>
+                <a href="{{ path('app_products') }}" class="btn btn-primary btn-lg">
+                    Voir nos horloges vinyles
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

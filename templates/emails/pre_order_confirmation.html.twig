@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation de pré-commande - V-Times</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            background-color: #0d6efd;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .logo {
+            max-width: 150px;
+            margin-bottom: 15px;
+        }
+        .header h1 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 28px;
+        }
+        .content {
+            padding: 30px 20px;
+            background-color: #ffffff;
+        }
+        .content p {
+            margin: 15px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            width: 40%;
+        }
+        .total-row {
+            background-color: #e7f3ff;
+            font-weight: bold;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+            {% if logo is defined %}
+                <img src="cid:logo" alt="V-Times Logo" class="logo">
+            {% endif %}
+            <h1>V-Times</h1>
+        </div>
+        
+        <div class="content">
+            <p>Bonjour {{ preOrder.prenom }} {{ preOrder.nom }},</p>
+            
+            <p>Nous avons bien reçu votre pré-commande et nous vous en remercions !</p>
+            
+            <h2 style="color: #0d6efd; margin-top: 25px;">Récapitulatif de votre commande</h2>
+            
+            <table>
+                <tr>
+                    <th>Produit</th>
+                    <td>{{ preOrder.produit.name }}</td>
+                </tr>
+                <tr>
+                    <th>Quantité</th>
+                    <td>{{ preOrder.quantiteCommandee }}</td>
+                </tr>
+                <tr>
+                    <th>Prix unitaire</th>
+                    <td>{{ preOrder.produit.price|number_format(2, ',', ' ') }} €</td>
+                </tr>
+                <tr class="total-row">
+                    <th>Prix total</th>
+                    <td>{{ prixTotal|number_format(2, ',', ' ') }} €</td>
+                </tr>
+            </table>
+            
+            {% if preOrder.message %}
+            <p><strong>Votre message :</strong></p>
+            <p style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; font-style: italic;">
+                {{ preOrder.message }}
+            </p>
+            {% endif %}
+            
+            <div class="highlight">
+                <p style="margin: 0;"><strong>📞 Nous vous contacterons sous 48h pour confirmer la date de retrait de votre horloge vinyle.</strong></p>
+            </div>
+            
+            <p>Si vous avez des questions, n'hésitez pas à nous contacter.</p>
+        </div>
+        
+        <div class="footer">
+            <p style="margin: 5px 0;"><strong>V-Times</strong></p>
+            <p style="margin: 5px 0;">Horloges vinyles uniques</p>
+            <p style="margin: 5px 0;">Email: contact@v-times.com</p>
+            <p style="margin: 15px 0 5px 0; font-size: 12px;">
+                Vous recevez cet email suite à votre pré-commande sur notre site.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

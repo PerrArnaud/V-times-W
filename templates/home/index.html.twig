@@ -3,56 +3,38 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-<div class="container mt-5">
-    <div id="logged-in-content" style="display: none;">
-        <h1>Bienvenue <span id="username"></span></h1>
-        <p>Vous êtes connecté avec succès !</p>
-        
-        <div class="mt-4">
-            <button onclick="logout()" class="btn btn-danger">Se déconnecter</button>
-        </div>
-    </div>
-    
-    <div id="logged-out-content" style="display: none;">
-        <h1>Bienvenue</h1>
-        <p>Veuillez vous connecter pour accéder à l'application.</p>
-        <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
+<div class="hero bg-gradient text-white d-flex align-items-center" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 450px;">
+    <div class="container text-center">
+        <h1 class="display-3 fw-bold mb-4">V-Times</h1>
+        <p class="lead fs-4 mb-5">Horloges vinyles uniques pour décorer votre intérieur</p>
+        <a href="{{ path('app_products') }}" class="btn btn-light btn-lg px-5">Découvrir nos produits</a>
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const token = sessionStorage.getItem('jwt_token');
-        
-        if (token) {
-            // Décoder le JWT pour obtenir les informations utilisateur
-            try {
-                const payload = JSON.parse(atob(token.split('.')[1]));
-                
-                // Vérifier l'expiration du token
-                const now = Math.floor(Date.now() / 1000);
-                if (payload.exp && payload.exp < now) {
-                    // Token expiré
-                    sessionStorage.removeItem('jwt_token');
-                    document.getElementById('logged-out-content').style.display = 'block';
-                } else {
-                    // Token valide
-                    document.getElementById('username').textContent = payload.username || payload.name;
-                    document.getElementById('logged-in-content').style.display = 'block';
-                }
-            } catch(e) {
-                // Token invalide
-                sessionStorage.removeItem('jwt_token');
-                document.getElementById('logged-out-content').style.display = 'block';
-            }
-        } else {
-            document.getElementById('logged-out-content').style.display = 'block';
-        }
-    });
-    
-    function logout() {
-        sessionStorage.removeItem('jwt_token');
-        window.location.href = '{{ path('app_login') }}';
-    }
-</script>
+<section class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-4 text-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-star-fill text-primary mb-3" viewBox="0 0 16 16">
+                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+            </svg>
+            <h5>Créations Uniques</h5>
+            <p class="text-muted">Chaque horloge est une pièce unique fabriquée à partir de vinyles authentiques</p>
+        </div>
+        <div class="col-md-4 text-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-award-fill text-primary mb-3" viewBox="0 0 16 16">
+                <path d="m8 0 1.669.864 1.858.282.842 1.68 1.337 1.32L13.4 6l.306 1.854-1.337 1.32-.842 1.68-1.858.282L8 12l-1.669-.864-1.858-.282-.842-1.68-1.337-1.32L2.6 6l-.306-1.854 1.337-1.32.842-1.68L6.331.864z"/>
+                <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1z"/>
+            </svg>
+            <h5>Qualité Artisanale</h5>
+            <p class="text-muted">Fabrication soignée avec des matériaux de qualité</p>
+        </div>
+        <div class="col-md-4 text-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-truck text-primary mb-3" viewBox="0 0 16 16">
+                <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5zm1.294 7.456A2 2 0 0 1 4.732 11h5.536a2 2 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456M12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>
+            </svg>
+            <h5>Retrait Rapide</h5>
+            <p class="text-muted">Nous vous contacterons sous 48h pour organiser le retrait</p>
+        </div>
+    </div>
+</section>
 {% endblock %}

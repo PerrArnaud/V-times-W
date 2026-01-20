@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos Produits{% endblock %}
+
+{% block body %}
+<div class="container mt-5 mb-5">
+    <h1 class="text-center mb-5">Nos Horloges Vinyles</h1>
+    
+    {% if stocks|length == 0 %}
+        <div class="alert alert-info text-center" role="alert">
+            <h4>Aucun produit disponible pour le moment</h4>
+            <p>Revenez bientôt pour découvrir nos créations uniques !</p>
+        </div>
+    {% else %}
+        <div class="row">
+            {% for stock in stocks %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="{{ asset('images/products/' ~ stock.image) }}" 
+                             class="card-img-top" 
+                             alt="{{ stock.name }}" 
+                             style="height: 300px; object-fit: cover;">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ stock.name }}</h5>
+                            <p class="card-text text-muted fs-4 fw-bold">
+                                {{ stock.price|number_format(2, ',', ' ') }} €
+                            </p>
+                            
+                            <div class="mt-auto">
+                                {% if stock.isAvailable() %}
+                                    <span class="badge bg-success mb-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle me-1" viewBox="0 0 16 16">
+                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                            <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+                                        </svg>
+                                        En stock
+                                    </span>
+                                    <br>
+                                    <a href="{{ path('app_preorder', {produit: stock.id}) }}" class="btn btn-primary w-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus me-1" viewBox="0 0 16 16">
+                                            <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9z"/>
+                                            <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                                        </svg>
+                                        Pré-commander
+                                    </a>
+                                {% else %}
+                                    <span class="badge bg-secondary mb-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle me-1" viewBox="0 0 16 16">
+                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                        </svg>
+                                        Rupture de stock
+                                    </span>
+                                    <br>
+                                    <button class="btn btn-secondary w-100" disabled>
+                                        Indisponible
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
