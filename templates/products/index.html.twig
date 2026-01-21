@@ -4,7 +4,12 @@
 
 {% block body %}
 <div class="container mt-5 mb-5">
-    <h1 class="text-center mb-5">Nos Horloges Vinyles</h1>
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h1 class="mb-0">Nos Horloges Vinyles</h1>
+        <a href="{{ path('app_custom') }}" class="btn btn-outline-primary btn-lg">
+            <i class="bi bi-palette"></i> Personnaliser
+        </a>
+    </div>
     
     {% if stocks|length == 0 %}
         <div class="alert alert-info text-center" role="alert">

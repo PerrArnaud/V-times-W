@@ -18,10 +18,18 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                enable_csrf: true
+                default_target_path: app_stock_index
+            logout:
+                path: app_logout
+                target: app_home
 
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/stock, roles: ROLE_ADMIN }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
 
 when@test:
     security:
