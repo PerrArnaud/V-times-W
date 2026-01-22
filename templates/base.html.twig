@@ -47,5 +47,22 @@
             </div>
         </nav>
         {% block body %}{% endblock %}
+        
+        <footer class="bg-dark text-white mt-5 py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        <p class="mb-0">&copy; {{ 'now'|date('Y') }} V-Times. Tous droits réservés.</p>
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <a href="{{ path('app_legal') }}" class="text-white text-decoration-none">
+                            <i class="bi bi-file-text"></i> Mentions Légales
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
