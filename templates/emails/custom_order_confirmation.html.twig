@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+        .content {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 0 0 10px 10px;
+        }
+        .info-box {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+            border-radius: 5px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 12px;
+        }
+        h1 { margin: 0; }
+        h2 { color: #667eea; }
+        .highlight { color: #667eea; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="cid:logo" alt="V-Times" style="max-height: 50px; margin-bottom: 10px;">
+        <h1>Commande Personnalisée Confirmée</h1>
+    </div>
+    
+    <div class="content">
+        <p>Bonjour <strong>{{ preOrder.prenom }} {{ preOrder.nom }}</strong>,</p>
+        
+        <p>Nous avons bien reçu votre demande de personnalisation d'horloge vinyle. Merci pour votre confiance !</p>
+        
+        <div class="info-box">
+            <h2>Détails de votre personnalisation</h2>
+            <table style="width: 100%;">
+                <tr>
+                    <td style="padding: 8px 0;"><strong>Cadran :</strong></td>
+                    <td style="padding: 8px 0;">{{ cadran|capitalize }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><strong>Aiguilles :</strong></td>
+                    <td style="padding: 8px 0;">{{ aiguille|capitalize }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><strong>Chiffres :</strong></td>
+                    <td style="padding: 8px 0;">{{ chiffres|capitalize }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><strong>Date de commande :</strong></td>
+                    <td style="padding: 8px 0;">{{ preOrder.dateCreation|date('d/m/Y à H:i') }}</td>
+                </tr>
+            </table>
+            
+            {% if preOrder.message %}
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
+                    <strong>Votre message :</strong><br>
+                    <em>{{ preOrder.message|nl2br }}</em>
+                </div>
+            {% endif %}
+        </div>
+        
+        <p><span class="highlight">Notre équipe va étudier votre demande et vous contactera sous 48h</span> pour finaliser les détails et vous communiquer un devis personnalisé.</p>
+        
+        <p>Si vous avez des questions, n'hésitez pas à nous contacter par email.</p>
+        
+        <p>À très bientôt,<br>
+        <strong>L'équipe V-Times</strong></p>
+    </div>
+    
+    <div class="footer">
+        <p>V-Times - Horloges Vinyles Personnalisées<br>
+        Cet email a été envoyé à {{ preOrder.email }}</p>
+    </div>
+</body>
+</html>

@@ -29,8 +29,7 @@ class PreOrder
     private ?string $email = null;
 
     #[ORM\ManyToOne(inversedBy: 'preOrders')]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'RESTRICT')]
-    #[Assert\NotNull(message: 'Veuillez sélectionner un produit')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'RESTRICT')]
     private ?Stock $produit = null;
 
     #[ORM\Column]

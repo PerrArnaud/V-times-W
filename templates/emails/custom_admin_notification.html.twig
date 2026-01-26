@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: #dc3545;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+        .content {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 0 0 10px 10px;
+        }
+        .info-box {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #dc3545;
+            border-radius: 5px;
+        }
+        h1 { margin: 0; }
+        h2 { color: #dc3545; }
+        .alert { 
+            background: #fff3cd; 
+            border: 1px solid #ffc107; 
+            padding: 15px; 
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="cid:logo" alt="V-Times" style="max-height: 50px; margin-bottom: 10px;">
+        <h1>🎨 Nouvelle Commande Personnalisée</h1>
+    </div>
+    
+    <div class="content">
+        <div class="alert">
+            <strong>⚠️ Action requise :</strong> Une nouvelle demande de personnalisation nécessite votre attention.
+        </div>
+        
+        <div class="info-box">
+            <h2>Informations client</h2>
+            <table style="width: 100%;">
+                <tr>
+                    <td style="padding: 8px 0;"><strong>Nom :</strong></td>
+                    <td style="padding: 8px 0;">{{ preOrder.nom }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><strong>Prénom :</strong></td>
+                    <td style="padding: 8px 0;">{{ preOrder.prenom }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><strong>Email :</strong></td>
+                    <td style="padding: 8px 0;"><a href="mailto:{{ preOrder.email }}">{{ preOrder.email }}</a></td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><strong>Date :</strong></td>
+                    <td style="padding: 8px 0;">{{ preOrder.dateCreation|date('d/m/Y à H:i') }}</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="info-box">
+            <h2>Détails de personnalisation</h2>
+            <table style="width: 100%; background: #f8f9fa; padding: 15px; border-radius: 5px;">
+                <tr>
+                    <td style="padding: 8px 0;"><strong>🎨 Cadran :</strong></td>
+                    <td style="padding: 8px 0;">{{ cadran|upper }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><strong>🕐 Aiguilles :</strong></td>
+                    <td style="padding: 8px 0;">{{ aiguille|upper }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0;"><strong>🔢 Chiffres :</strong></td>
+                    <td style="padding: 8px 0;">{{ chiffres|upper }}</td>
+                </tr>
+            </table>
+            
+            {% if preOrder.message %}
+                <div style="margin-top: 15px; padding: 15px; background: #e7f3ff; border-left: 3px solid #0066cc; border-radius: 5px;">
+                    <strong>💬 Message du client :</strong><br>
+                    {{ preOrder.message|nl2br }}
+                </div>
+            {% endif %}
+        </div>
+        
+        <p style="background: #d4edda; padding: 15px; border-radius: 5px; border-left: 4px solid #28a745;">
+            <strong>📋 Action à faire :</strong><br>
+            Contacter le client sous 48h pour établir un devis et confirmer les détails de fabrication.
+        </p>
+    </div>
+</body>
+</html>

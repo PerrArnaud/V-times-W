@@ -38,6 +38,25 @@
                             {{ form_row(form.chiffres) }}
                         </div>
 
+                        <hr class="my-4">
+                        <h5 class="mb-3">Vos coordonnées</h5>
+
+                        <div class="mb-3">
+                            {{ form_row(form.nom) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_row(form.prenom) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_row(form.email) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_row(form.message) }}
+                        </div>
+
                         {{ form_row(form.submit) }}
 
                     {{ form_end(form) }}
