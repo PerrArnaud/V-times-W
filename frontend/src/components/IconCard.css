@@ -1,0 +1,74 @@
+.icon-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 300px;
+    padding: 1rem;
+    background: transparent;
+    transition: transform 0.3s ease;
+}
+
+.icon-card:hover {
+    transform: translateY(-5px);
+}
+
+.icon-card-image {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 1.5rem;
+    filter: brightness(0);
+    /* Force l'icône en noir si c'est une image couleur */
+    opacity: 0.8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Support pour les SVG inline dans le wrapper */
+.icon-svg-wrapper svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+    /* Permet au SVG de prendre la couleur du texte/contexte */
+}
+
+.icon-card-title {
+    font-family: 'Playfair Display', "Garamond", serif;
+    font-size: 2rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: var(--color-text, #000);
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+}
+
+.icon-card-description {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--color-text-muted, #666);
+}
+
+/* Variante claire pour fond sombre */
+.icon-card.light .icon-card-title {
+    color: #fff;
+}
+
+.icon-card.light .icon-card-description {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.icon-card.light .icon-card-image {
+    color: #fff;
+    /* Pour les SVG inline utilisant currentColor */
+    filter: brightness(100) invert(0);
+    /* Rendre blanc les images bit map */
+}
+
+/* Si c'est un wrapper SVG, on enlève le filtre brightness qui pourrait casser le rendu couleur si voulu, 
+   ou on l'ajuste. Ici, on force le blanc via color + currentColor */
+.icon-card.light .icon-svg-wrapper {
+    filter: none;
+}

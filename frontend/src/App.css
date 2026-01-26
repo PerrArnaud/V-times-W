@@ -1,0 +1,153 @@
+:root {
+    /* Couleurs de base */
+    --color-white: #ffffff;
+    --color-black: #000000;
+
+    /* Couleurs principales */
+    --color-primary: #335348;
+    --color-primary-hover: color-mix(in srgb, var(--color-primary), var(--color-black) 15%);
+    --color-primary-light: color-mix(in srgb, var(--color-primary), var(--color-white) 30%);
+    --color-primary-dark: color-mix(in srgb, var(--color-primary), var(--color-black) 30%);
+
+    /* Couleurs secondaires */
+    --color-secondary: #CA9110;
+    --color-secondary-hover: color-mix(in srgb, var(--color-secondary), var(--color-black) 15%);
+    --color-secondary-light: color-mix(in srgb, var(--color-secondary), var(--color-white) 30%);
+    --color-secondary-dark: color-mix(in srgb, var(--color-secondary), var(--color-black) 30%);
+
+    /* Couleurs d'accent */
+    --color-accent: #8b5cf6;
+    --color-accent-hover: color-mix(in srgb, var(--color-accent), var(--color-black) 15%);
+    --color-accent-light: color-mix(in srgb, var(--color-accent), var(--color-white) 30%);
+    --color-accent-dark: color-mix(in srgb, var(--color-accent), var(--color-black) 30%);
+
+    /* Couleurs de statut */
+    --color-success: #22c55e;
+    --color-success-light: color-mix(in srgb, var(--color-success), var(--color-white) 30%);
+    --color-success-dark: color-mix(in srgb, var(--color-success), var(--color-black) 30%);
+
+    --color-warning: #f59e0b;
+    --color-warning-light: color-mix(in srgb, var(--color-warning), var(--color-white) 30%);
+    --color-warning-dark: color-mix(in srgb, var(--color-warning), var(--color-black) 30%);
+
+    --color-error: #ef4444;
+    --color-error-light: color-mix(in srgb, var(--color-error), var(--color-white) 30%);
+    --color-error-dark: color-mix(in srgb, var(--color-error), var(--color-black) 30%);
+
+    --color-info: #0ea5e9;
+    --color-info-light: color-mix(in srgb, var(--color-info), var(--color-white) 30%);
+    --color-info-dark: color-mix(in srgb, var(--color-info), var(--color-black) 30%);
+
+    /* Couleurs neutres */
+    --color-gray: #6b7280;
+    --color-gray-100: color-mix(in srgb, var(--color-gray), var(--color-white) 90%);
+    --color-gray-200: color-mix(in srgb, var(--color-gray), var(--color-white) 80%);
+    --color-gray-300: color-mix(in srgb, var(--color-gray), var(--color-white) 60%);
+    --color-gray-400: color-mix(in srgb, var(--color-gray), var(--color-white) 40%);
+    --color-gray-500: var(--color-gray);
+    --color-gray-600: color-mix(in srgb, var(--color-gray), var(--color-black) 20%);
+    --color-gray-700: color-mix(in srgb, var(--color-gray), var(--color-black) 40%);
+    --color-gray-800: color-mix(in srgb, var(--color-gray), var(--color-black) 60%);
+    --color-gray-900: color-mix(in srgb, var(--color-gray), var(--color-black) 80%);
+
+    /* Couleurs de fond */
+    --color-background: #F8F6F0;
+    --color-background-alt: var(--color-white);
+
+    /* Couleurs de texte */
+    --color-text: var(--color-gray-900);
+    --color-text-muted: var(--color-gray-500);
+    --color-text-light: var(--color-gray-400);
+
+    /* Couleurs de lien */
+    --color-link: #007e24;
+    --color-link-hover: color-mix(in srgb, var(--color-link), var(--color-black) 15%);
+    --color-link-light: color-mix(in srgb, var(--color-link), var(--color-white) 30%);
+
+    /* Couleurs avec transparence */
+    --color-white-10: color-mix(in srgb, var(--color-white) 10%, transparent);
+    --color-white-20: color-mix(in srgb, var(--color-white) 20%, transparent);
+    --color-black-10: color-mix(in srgb, var(--color-black) 10%, transparent);
+    --color-primary-50: color-mix(in srgb, var(--color-primary) 50%, transparent);
+}
+
+#root {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-family: Roboto, sans-serif;
+
+    button {
+        background-color: var(--color-primary);
+        color: var(--color-white);
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: var(--color-primary-hover);
+        transition: background-color 0.3s ease;
+    }
+}
+
+.logo {
+    height: 6em;
+    padding: 1.5em;
+    will-change: filter;
+    transition: filter 300ms;
+}
+
+.logo:hover {
+    filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.react:hover {
+    filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    a:nth-of-type(2) .logo {
+        animation: logo-spin infinite 20s linear;
+    }
+}
+
+.card {
+    padding: 2em;
+}
+
+.read-the-docs {
+    color: var(--color-text-muted);
+}
+
+@media (max-width: 1024px) {
+    .nav-container {
+        max-width: 85%;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-container {
+        display: none;
+    }
+
+    .mobile-menu-toggle {
+        display: block;
+    }
+
+    .mobile-nav-links {
+        display: block;
+    }
+}

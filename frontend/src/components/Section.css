@@ -1,0 +1,305 @@
+.section {
+    background-color: var(--color-background);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+}
+
+/* Background image */
+.section-bg {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.section-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-black-10);
+    pointer-events: none;
+}
+
+.section-bg .section-title,
+.section-bg .section-subtitle,
+.section-bg .section-description {
+    position: relative;
+    z-index: 1;
+    color: var(--color-white);
+    text-shadow: 0 2px 4px var(--color-black-10);
+}
+
+.section-bg .section-button {
+    position: relative;
+    z-index: 1;
+}
+
+/* Tailles */
+.section-l {
+    min-height: 60vh;
+}
+
+.section-l .section-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.5rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    margin: 0;
+    text-align: center;
+    position: relative;
+}
+
+.section-l .section-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -15px;
+    width: 100%;
+    height: 4px;
+    background-color: var(--color-primary);
+    border-radius: 2px;
+}
+
+.section-l .section-description {
+    font-size: 1.25rem;
+}
+
+.section-m {
+    min-height: 40vh;
+    background-color: var(--color-background-alt);
+    align-items: center;
+    margin: 0 auto;
+}
+
+/* Nouvelle section M-Alt */
+.section-m-alt {
+    min-height: 40vh;
+    /* Taille comme M */
+    background-color: var(--color-background-alt);
+    /* Couleur différente de L */
+    align-items: center;
+    margin: 0 auto;
+}
+
+/* Styles du titre identiques à .section-l */
+.section-m-alt .section-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.5rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    margin: 0;
+    text-align: center;
+    position: relative;
+}
+
+.section-m-alt .section-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -15px;
+    width: 100%;
+    height: 4px;
+    background-color: var(--color-primary);
+    border-radius: 2px;
+}
+
+.section-m-alt .section-description {
+    font-size: 1.25rem;
+    /* Même taille que L */
+}
+
+
+/* Section M avec image - Grid layout */
+.section-m-grid {
+    width: 80%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    padding: 3rem 5rem;
+    text-align: left;
+    align-items: center;
+}
+
+.section-m-grid .section-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.section-m-grid .section-image img {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.section-m-grid .section-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.section-subtitle {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-text-muted);
+    margin-bottom: 0.5rem;
+}
+
+/* Responsive mobile pour section M grid */
+@media (max-width: 768px) {
+    .section-m-grid {
+        grid-template-columns: 1fr;
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .section-m-grid .section-content {
+        align-items: center;
+    }
+
+    .section-m-grid .section-image {
+        order: -1;
+    }
+
+    .section-m-grid .section-image img {
+        max-height: 250px;
+    }
+}
+
+.section-s {
+    min-height: 5vh;
+    padding: 2rem 2rem;
+    background-color: var(--color-background);
+}
+
+.section-s .section-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.5rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .section-s .section-title {
+        font-size: 1.5rem;
+        letter-spacing: 0.1em;
+    }
+}
+
+/* Titres adaptatifs */
+.section-title {
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+}
+
+
+.section-m .section-title {
+    font-size: 2.25rem;
+}
+
+
+/* Descriptions adaptatives */
+.section-description {
+    color: var(--color-text-muted);
+    margin-bottom: 2rem;
+}
+
+
+.section-m .section-description {
+    font-size: 1rem;
+}
+
+
+.section-button {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.section-button:hover {
+    background-color: var(--color-primary-hover);
+}
+
+/* Nouveau container pour le contenu imbriqué */
+.section-children {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    z-index: 1;
+}
+
+/* Tablette et Mobile: Transformation en carrousel */
+@media (max-width: 1024px) {
+    .section-children {
+        flex-wrap: nowrap;
+        /* Plus de retour à la ligne */
+        justify-content: flex-start;
+        /* Alignement au début */
+        overflow-x: auto;
+        /* Scroll horizontal */
+        scroll-snap-type: x mandatory;
+        /* Effet magnétique */
+
+        /* Ajustements d'espacement pour le scroll */
+        padding-bottom: 1rem;
+        /* Espace pour la scrollbar éventuelle */
+        padding-left: 2rem;
+        /* Espace début */
+        padding-right: 2rem;
+        /* Espace fin */
+
+        /* Utilisation de toute la largeur de l'écran ou du parent */
+        width: 100vw;
+        margin-left: -2rem;
+        /* Compensation du padding parent .section */
+        margin-right: -2rem;
+
+        /* Cacher la scrollbar (optionnel mais plus propre sur mobile) */
+        scrollbar-width: none;
+        /* Firefox */
+        -ms-overflow-style: none;
+        /* IE and Edge */
+    }
+
+    .section-children::-webkit-scrollbar {
+        display: none;
+        /* Chrome, Safari, Opera */
+    }
+
+    /* Force les enfants (cartes) à garder leur taille */
+    .section-children>* {
+        flex: 0 0 auto;
+        /* Ne pas réduire ou grandir */
+        scroll-snap-align: center;
+        /* Centrer l'élément au scroll */
+    }
+}

@@ -1,0 +1,79 @@
+.tabs-container {
+    display: inline-flex;
+    background-color: #fff;
+    border-radius: 50px;
+    padding: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    position: relative;
+    font-family: 'Playfair Display', Georgia, serif;
+    z-index: 0;
+}
+
+/* L'indicateur glissant (Blob) */
+.tab-blob {
+    position: absolute;
+    top: 5px;
+    /* Correspond au padding du container */
+    bottom: 5px;
+    background-color: #23372D;
+    /* Vert sombre */
+    border-radius: 25px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    /* Animation fluide */
+    z-index: 0;
+    pointer-events: none;
+    /* Ne pas bloquer les clics */
+}
+
+.tab-item {
+    padding: 10px 25px;
+    border-radius: 25px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    font-size: 1.1rem;
+    color: #333;
+    transition: color 0.3s ease;
+    position: relative;
+    z-index: 1;
+    /* Au-dessus du blob */
+    font-family: inherit;
+    outline: none;
+}
+
+.tab-item.active {
+    background-color: transparent;
+    /* Plus de couleur de fond statique */
+    color: #fff !important;
+    font-weight: 500;
+}
+
+button {
+    background-color: transparent !important;
+    color: #000000 !important;
+}
+
+/* Carousel Mode */
+.tabs-container.carousel-mode {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    justify-content: flex-start;
+    max-width: 100%;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE/Edge */
+    padding-right: 20px;
+    /* Right padding for scroll */
+}
+
+.tabs-container.carousel-mode::-webkit-scrollbar {
+    display: none;
+    /* Chrome/Safari */
+}
+
+.tabs-container.carousel-mode .tab-item {
+    flex: 0 0 auto;
+    /* Don't shrink */
+}

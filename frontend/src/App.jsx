@@ -1,0 +1,26 @@
+import { useState } from 'react'
+import Navbar from './components/navbar'
+import Home from './pages/Home'
+import Products from './pages/products'
+import Canva from './pages/canva'
+import Bottombar from './components/bottombar'
+import About from './pages/About'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import './App.css'
+
+function App() {
+    return (
+        <Router>
+            <Navbar />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/canva" element={<Canva />} />
+                <Route path="/about" element={<About />} />
+            </Routes>
+            <Bottombar />
+        </Router>
+    )
+}
+
+export default App

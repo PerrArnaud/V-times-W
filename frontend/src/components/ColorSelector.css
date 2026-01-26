@@ -1,0 +1,74 @@
+/* Main Container */
+.color-selector-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    font-family: 'Playfair Display', serif;
+    width: 100%;
+    max-width: 400px;
+    margin: 10px auto;
+}
+
+/* Header with Lines (Reusing Selector style for consistency) */
+.color-selector-header {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.color-selector-header::before,
+.color-selector-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: #333;
+    opacity: 0.8;
+}
+
+.color-selector-header::before {
+    margin-right: 15px;
+}
+
+.color-selector-header::after {
+    margin-left: 15px;
+}
+
+/* Options Wrapper */
+.color-options-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px 20px;
+    background: #fff;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    /* Subtle shadow for pill shape */
+}
+
+/* Color Swatch */
+.color-swatch {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 2px solid transparent;
+}
+
+.color-swatch:hover {
+    transform: scale(1.1);
+}
+
+.color-swatch.active {
+    transform: scale(1.15);
+    border-color: #333;
+    /* Dark ring for active state */
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.8) inset;
+    /* Double ring effect */
+}

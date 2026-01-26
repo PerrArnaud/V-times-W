@@ -1,0 +1,62 @@
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 50px;
+    padding: 10px 25px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    /* Subtle shadow for depth */
+    border: 1px solid #f0f0f0;
+    /* Very light border */
+    transition: box-shadow 0.3s ease;
+}
+
+.search-container:hover,
+.search-container:focus-within {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.search-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-family: 'Playfair Display', serif;
+    /* Serif font as per design */
+    font-size: 1.2rem;
+    color: #333;
+    background: transparent;
+}
+
+.search-input::placeholder {
+    color: #999;
+    font-style: italic;
+    /* Adding italic to match styling often seen with serif placeholders */
+    opacity: 0.8;
+}
+
+.search-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    margin-left: 10px;
+    color: #000;
+}
+
+.search-button svg {
+    width: 28px;
+    height: 28px;
+    fill: currentColor;
+    stroke: currentColor;
+    stroke-width: 0.5px;
+}
+
+.search-button:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s;
+}

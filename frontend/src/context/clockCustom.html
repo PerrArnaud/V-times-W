@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horloge 3D Flat - Vue Éclatée</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #1a2a3a 0%, #000000 100%);
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+            cursor: grab;
+        }
+
+        #canvas-container:active {
+            cursor: grabbing;
+        }
+
+        #ui {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+        }
+
+        button {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #3498db;
+        }
+
+        button.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+            box-shadow: 0 0 20px rgba(52, 152, 219, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="ui">
+        <button id="boutonExplosion">Vue Éclatée</button>
+    </div>
+
+    <div id="canvas-container"></div>
+
+    <script>
+        // --- CONSTANTES ET RÉGLAGES ---
+        // Définition explicite des constantes au sommet pour éviter les ReferenceError
+        const VALEURS_NORMALES = { rotX: 0, rotY: 0.5, rotZ: 0, posX: 0, posY: 0, posZ: 0 };
+        const VALEURS_ECLATEES = { rotX: -0.55, rotY: 0.63, rotZ: 0, posX: -1.90, posY: -0.90, posZ: 0 };
+
+        const DELAI_REINITIALISATION = 3000;
+        const SENSIBILITE = 0.005;
+
+        // --- VARIABLES GLOBALES ---
+        let scene, camera, renderer, horlogeSysteme;
+        let aiguilleHeures, aiguilleMinutes, aiguilleSecondes;
+        let groupeHorloge;
+        let composants = [];
+
+        let estEnTrainDeGlisser = false;
+        let estDecomposee = false;
+        let sourisPrecedenteX = 0, sourisPrecedenteY = 0;
+
+        let rotationCibleX = VALEURS_NORMALES.rotX;
+        let rotationCibleY = VALEURS_NORMALES.rotY;
+        let rotationCibleZ = VALEURS_NORMALES.rotZ;
+
+        let positionCibleX = VALEURS_NORMALES.posX;
+        let positionCibleY = VALEURS_NORMALES.posY;
+        let positionCibleZ = VALEURS_NORMALES.posZ;
+
+        let tempsDerniereInteraction = Date.now();
+
+        window.onload = initialiser;
+
+        /**
+         * Initialise la scène Three.js et les composants
+         */
+        function initialiser() {
+            scene = new THREE.Scene();
+            horlogeSysteme = new THREE.Clock();
+
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 0, 18);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.outputEncoding = THREE.sRGBEncoding;
+            document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+            const lumiereAmbiante = new THREE.AmbientLight(0xffffff, 1.0);
+            scene.add(lumiereAmbiante);
+
+            creerHorloge();
+
+            window.addEventListener('resize', redimensionner);
+            const conteneur = document.getElementById('canvas-container');
+            conteneur.addEventListener('mousedown', auClicAppuye);
+            window.addEventListener('mouseup', auClicRelache);
+            window.addEventListener('mousemove', auMouvementSouris);
+
+            // Interaction Tactile
+            conteneur.addEventListener('touchstart', (e) => auClicAppuye(e.touches[0]), { passive: false });
+            window.addEventListener('touchend', auClicRelache);
+            window.addEventListener('touchmove', (e) => auMouvementSouris(e.touches[0]), { passive: false });
+
+            document.getElementById('boutonExplosion').addEventListener('click', (e) => {
+                estDecomposee = !estDecomposee;
+                e.target.classList.toggle('active', estDecomposee);
+                tempsDerniereInteraction = Date.now();
+
+                // On applique les réglages selon le mode
+                const reglage = estDecomposee ? VALEURS_ECLATEES : VALEURS_NORMALES;
+                rotationCibleX = reglage.rotX;
+                rotationCibleY = reglage.rotY;
+                rotationCibleZ = reglage.rotZ;
+                positionCibleX = reglage.posX;
+                positionCibleY = reglage.posY;
+                positionCibleZ = reglage.posZ;
+            });
+
+            animer();
+        }
+
+        /**
+         * Enregistre un composant dans le groupe et la liste de décomposition
+         */
+        function ajouterComposant(objet, indexCouche) {
+            objet.userData = { indexCouche: indexCouche, zInitial: objet.position.z };
+            groupeHorloge.add(objet);
+            composants.push(objet);
+        }
+
+        /**
+         * Crée un tracé trapézoïdal pour simuler une aiguille vectorielle
+         */
+        function creerGeometrieAiguillePlate(largeurBase, largeurSommet, longueur) {
+            const forme = new THREE.Shape();
+            forme.moveTo(-largeurBase / 2, 0);
+            forme.lineTo(largeurBase / 2, 0);
+            forme.lineTo(largeurSommet / 2, longueur);
+            forme.lineTo(-largeurSommet / 2, longueur);
+            forme.closePath();
+            return new THREE.ShapeGeometry(forme);
+        }
+
+        /**
+         * Construit l'horloge avec des matériaux plats et Polygon Offset pour le clipping
+         */
+        function creerHorloge() {
+            groupeHorloge = new THREE.Group();
+
+            const creerMateriauFlat = (couleur, priorite = 0, opacite = 1) => {
+                return new THREE.MeshBasicMaterial({
+                    color: couleur,
+                    side: THREE.DoubleSide,
+                    transparent: opacite < 1,
+                    opacity: opacite,
+                    polygonOffset: true,
+                    polygonOffsetFactor: -priorite,
+                    polygonOffsetUnits: -1
+                });
+            };
+
+            const matSombre = creerMateriauFlat(0x2c3e50, 1);
+            const matBlanc = creerMateriauFlat(0xffffff, 0);
+            const matGris = creerMateriauFlat(0x95a5a6, 0.5);
+            const matRouge = creerMateriauFlat(0xe74c3c, 2);
+
+            const geoCercle = new THREE.CircleGeometry(5, 64);
+
+            // 1. Boîtier Arrière
+            const boitierArriere = new THREE.Mesh(geoCercle, matSombre);
+            boitierArriere.position.z = -0.05;
+            ajouterComposant(boitierArriere, 0);
+
+            // 2. Cadran
+            const cadran = new THREE.Mesh(geoCercle, matBlanc);
+            cadran.position.z = 0;
+            ajouterComposant(cadran, 1);
+
+            // 3. Lunette
+            const geoLunette = new THREE.TorusGeometry(5, 0.1, 16, 100);
+            const lunette = new THREE.Mesh(geoLunette, matGris);
+            lunette.position.z = 0.01;
+            ajouterComposant(lunette, 2);
+
+            // 4. Graduations
+            const groupeGraduations = new THREE.Group();
+            for (let i = 0; i < 60; i++) {
+                const estHeure = i % 5 === 0;
+                const geoGrad = new THREE.PlaneGeometry(estHeure ? 0.15 : 0.05, estHeure ? 0.6 : 0.3);
+                const matGrad = creerMateriauFlat(estHeure ? 0x2c3e50 : 0xbdc3c7, 1);
+                const graduation = new THREE.Mesh(geoGrad, matGrad);
+                const angle = (i / 60) * Math.PI * 2;
+                graduation.position.x = Math.sin(angle) * 4.4;
+                graduation.position.y = Math.cos(angle) * 4.4;
+                graduation.rotation.z = -angle;
+                groupeGraduations.add(graduation);
+            }
+            groupeGraduations.position.z = 0.02;
+            ajouterComposant(groupeGraduations, 3);
+
+            // 5. Aiguilles
+            const geoHeures = creerGeometrieAiguillePlate(0.35, 0.15, 2.8);
+            aiguilleHeures = new THREE.Mesh(geoHeures, creerMateriauFlat(0x2c3e50, 3));
+            aiguilleHeures.position.z = 0.03;
+            ajouterComposant(aiguilleHeures, 4);
+
+            const geoMinutes = creerGeometrieAiguillePlate(0.25, 0.1, 4.0);
+            aiguilleMinutes = new THREE.Mesh(geoMinutes, creerMateriauFlat(0x2c3e50, 4));
+            aiguilleMinutes.position.z = 0.04;
+            ajouterComposant(aiguilleMinutes, 5);
+
+            const geoSecondes = creerGeometrieAiguillePlate(0.1, 0.05, 4.5);
+            aiguilleSecondes = new THREE.Mesh(geoSecondes, creerMateriauFlat(0xe74c3c, 5));
+            aiguilleSecondes.position.z = 0.05;
+            ajouterComposant(aiguilleSecondes, 6);
+
+            // Axe Central
+            const geoAxe = new THREE.CircleGeometry(0.2, 32);
+            const axeCentral = new THREE.Mesh(geoAxe, creerMateriauFlat(0x2c3e50, 6));
+            axeCentral.position.z = 0.06;
+            ajouterComposant(axeCentral, 7);
+
+            // 6. Verre
+            const verre = new THREE.Mesh(geoCercle, creerMateriauFlat(0xffffff, 0, 0.05));
+            verre.position.z = 0.1;
+            ajouterComposant(verre, 8);
+
+            scene.add(groupeHorloge);
+        }
+
+        function auClicAppuye(event) {
+            estEnTrainDeGlisser = true;
+            sourisPrecedenteX = event.clientX;
+            sourisPrecedenteY = event.clientY;
+            tempsDerniereInteraction = Date.now();
+        }
+
+        function auClicRelache() {
+            estEnTrainDeGlisser = false;
+
+            // Normalisation des angles pour le chemin le plus court
+            const normaliserAngle = (angle) => Math.atan2(Math.sin(angle), Math.cos(angle));
+
+            rotationCibleX = normaliserAngle(rotationCibleX);
+            rotationCibleY = normaliserAngle(rotationCibleY);
+            rotationCibleZ = normaliserAngle(rotationCibleZ);
+
+            groupeHorloge.rotation.x = normaliserAngle(groupeHorloge.rotation.x);
+            groupeHorloge.rotation.y = normaliserAngle(groupeHorloge.rotation.y);
+            groupeHorloge.rotation.z = normaliserAngle(groupeHorloge.rotation.z);
+        }
+
+        function auMouvementSouris(event) {
+            if (estEnTrainDeGlisser) {
+                const deltaX = event.clientX - sourisPrecedenteX;
+                const deltaY = event.clientY - sourisPrecedenteY;
+                rotationCibleY += deltaX * SENSIBILITE;
+                rotationCibleX += deltaY * SENSIBILITE;
+                sourisPrecedenteX = event.clientX;
+                sourisPrecedenteY = event.clientY;
+                tempsDerniereInteraction = Date.now();
+            }
+        }
+
+        function mettreAJourHeure() {
+            const maintenant = new Date();
+            const ms = maintenant.getMilliseconds();
+            aiguilleSecondes.rotation.z = -((maintenant.getSeconds() + ms / 1000) / 60) * Math.PI * 2;
+            aiguilleMinutes.rotation.z = -((maintenant.getMinutes() + maintenant.getSeconds() / 60) / 60) * Math.PI * 2;
+            aiguilleHeures.rotation.z = -(((maintenant.getHours() % 12) + maintenant.getMinutes() / 60) / 12) * Math.PI * 2;
+        }
+
+        function redimensionner() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animer() {
+            requestAnimationFrame(animer);
+            mettreAJourHeure();
+            const tempsActuel = Date.now();
+
+            // Reset automatique si inactif et non décomposé
+            if (!estEnTrainDeGlisser && !estDecomposee && (tempsActuel - tempsDerniereInteraction > DELAI_REINITIALISATION)) {
+                rotationCibleX += (VALEURS_NORMALES.rotX - rotationCibleX) * 0.05;
+                rotationCibleY += (VALEURS_NORMALES.rotY - rotationCibleY) * 0.05;
+                rotationCibleZ += (VALEURS_NORMALES.rotZ - rotationCibleZ) * 0.05;
+                positionCibleX += (VALEURS_NORMALES.posX - positionCibleX) * 0.05;
+                positionCibleY += (VALEURS_NORMALES.posY - positionCibleY) * 0.05;
+                positionCibleZ += (VALEURS_NORMALES.posZ - positionCibleZ) * 0.05;
+            }
+
+            // Interpolation Rotation
+            groupeHorloge.rotation.x += (rotationCibleX - groupeHorloge.rotation.x) * 0.1;
+            groupeHorloge.rotation.y += (rotationCibleY - groupeHorloge.rotation.y) * 0.1;
+            groupeHorloge.rotation.z += (rotationCibleZ - groupeHorloge.rotation.z) * 0.1;
+
+            // Interpolation Position
+            groupeHorloge.position.x += (positionCibleX - groupeHorloge.position.x) * 0.1;
+            groupeHorloge.position.y += (positionCibleY - groupeHorloge.position.y) * 0.1;
+            groupeHorloge.position.z += (positionCibleZ - groupeHorloge.position.z) * 0.1;
+
+            // Décomposition en couches Z
+            composants.forEach((comp) => {
+                const ecartCouche = estDecomposee ? 1.5 : 0;
+                const zCible = comp.userData.zInitial + (comp.userData.indexCouche * ecartCouche);
+                comp.position.z += (zCible - comp.position.z) * 0.1;
+            });
+
+            renderer.render(scene, camera);
+        }
+    </script>
+</body>
+
+</html>

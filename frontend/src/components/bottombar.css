@@ -1,0 +1,109 @@
+/* Bottombar Styles */
+.bottom-bar {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+
+    /* Glassmorphism Effect */
+    background: var(--color-white-10);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+
+    border: 1px solid var(--color-white-20);
+    border-radius: 50px;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+    padding: 12px 0;
+
+    box-shadow: 0 8px 32px 0 color-mix(in srgb, var(--color-secondary-dark) 20%, transparent);
+    z-index: 1000;
+    overflow: hidden;
+}
+
+/* Moving Blob Indicator Container */
+.nav-blob {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 25%;
+    /* Width of one grid item */
+    height: 100%;
+
+    /* Logic for movement */
+    transform: translateX(var(--blob-x, 0%));
+    transition: transform 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+    /* Playful spring */
+    z-index: -1;
+
+    /* Flex to center the circle inside this moving container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+/* The actual Circle Blob */
+.nav-blob::after {
+    content: '';
+    width: 62px;
+    height: 62px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    box-shadow: 0 4px 12px var(--color-primary-50);
+}
+
+.bottom-nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--color-gray-700);
+    font-size: 0.7rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1;
+    padding: 4px 0;
+}
+
+.bottom-nav-link:hover {
+    opacity: 1;
+}
+
+.bottom-nav-link.active {
+    opacity: 1;
+    color: var(--color-white);
+    transform: translateY(-2px);
+}
+
+/* Invert icon brightness/filter when active to stand out against blob */
+.bottom-nav-link.active .bottom-nav-icon {
+    filter: brightness(0) invert(1);
+    transform: scale(1.1);
+    /* Slight pop */
+}
+
+.bottom-nav-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    margin-bottom: 2px;
+    filter: drop-shadow(0 2px 4px var(--color-black-10));
+    transition: all 0.3s ease;
+}
+
+/* Hide on desktop/large screens */
+@media (min-width: 1061px) {
+    .bottom-bar {
+        display: none;
+    }
+}

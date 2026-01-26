@@ -1,0 +1,60 @@
+.home {
+    width: 100%;
+}
+
+.clock-config-container {
+    margin-top: 30px;
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+}
+
+.clock-layout-wrapper {
+    display: flex;
+    flex-direction: column;
+    /* Mobile first: stacked */
+    width: 100%;
+    gap: 40px;
+    justify-content: center;
+    align-items: center;
+}
+
+.clock-visual {
+    width: 100%;
+    max-width: 500px;
+    height: 500px;
+    /* Reduced height on mobile */
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+    background: #000;
+}
+
+.clock-selectors {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+}
+
+/* Tablet and up: Row layout */
+@media (min-width: 900px) {
+    .clock-layout-wrapper {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .clock-visual {
+        flex: 1 1 500px;
+        height: 600px;
+    }
+
+    .clock-selectors {
+        flex: 1 1 400px;
+    }
+}

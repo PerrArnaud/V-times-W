@@ -1,0 +1,60 @@
+.mini-card {
+    background-color: #F8F5EE;
+    /* Couleur crème/beige clair comme sur l'image */
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 280px;
+    /* Largeur fixe ou max-width selon besoin */
+    cursor: pointer;
+}
+
+.mini-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.mini-card-image-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+/* Ombre portée spécifique sous l'objet (style "produit flottant") */
+.mini-card-image-container::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    width: 60%;
+    height: 10px;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+    z-index: 0;
+}
+
+.mini-card-image {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    z-index: 1;
+    border-radius: 50%;
+    /* Si c'est un vinyle c'est rond, sinon on enlève */
+}
+
+.mini-card-title {
+    font-family: 'Roboto', sans-serif;
+    /* Police un peu "tech" ou moderne comme sur l'image */
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: #000;
+    margin: 0;
+    text-transform: capitalize;
+}

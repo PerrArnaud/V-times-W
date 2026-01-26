@@ -1,0 +1,89 @@
+.card-container {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    /* Largeur standard, mais flexible */
+    aspect-ratio: 3 / 4;
+    /* Ratio carte portrait */
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: default;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.card-container:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Image de fond */
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.card-container:hover .card-image {
+    transform: scale(1.1);
+}
+
+/* Overlay sombre/vert au hover */
+.card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+            rgba(35, 55, 45, 0.6),
+            rgba(20, 40, 30, 0.9));
+    /* Teinte verte sombre comme sur l'image */
+
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+    transition: opacity 0.4s ease;
+    backdrop-filter: blur(2px);
+    /* Léger flou pour effet premium */
+}
+
+.card-container:hover .card-overlay {
+    opacity: 1;
+}
+
+/* Contenu textuel */
+.card-title {
+    color: #fff;
+    font-family: "Garamond", "Times New Roman", serif;
+    /* Police Serif style journal */
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+
+    /* Animation d'entrée */
+    transform: translateY(20px);
+    transition: transform 0.4s ease;
+}
+
+.card-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-family: sans-serif;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+
+    /* Animation d'entrée avec délai */
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 0.4s ease 0.1s, opacity 0.4s ease 0.1s;
+}
+
+/* Animation au hover sur les textes */
+.card-container:hover .card-title,
+.card-container:hover .card-subtitle {
+    transform: translateY(0);
+    opacity: 1;
+}
