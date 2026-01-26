@@ -86,14 +86,14 @@
     font-weight: 400;
     letter-spacing: 0.05em;
     text-align: center;
-    flex: 1;
-    /* Take remaining space */
-    min-width: 0;
-    /* Allow shrinking below content width if needed */
+    width: 200px;
+    /* Fixed width to prevent resizing */
+    min-width: 200px;
     overflow: hidden;
     /* Prevent spillover */
     text-overflow: ellipsis;
-    /* Ellipsis for very small widths */
+    /* Ellipsis for very long words */
+    white-space: nowrap;
 }
 
 .selector-value.left {
@@ -147,4 +147,27 @@
 .dot.active {
     background-color: #333;
     /* Dark active dot */
+}
+
+/* Responsive adjustments for small screens */
+@media (max-width: 480px) {
+    .selector-value {
+        font-size: 1.5rem;
+        width: 160px;
+        min-width: 160px;
+    }
+
+    .selector-header {
+        font-size: 1.3rem;
+    }
+
+    .selector-arrow {
+        width: 50px;
+        height: 50px;
+    }
+
+    .selector-arrow svg {
+        width: 50px;
+        height: 50px;
+    }
 }

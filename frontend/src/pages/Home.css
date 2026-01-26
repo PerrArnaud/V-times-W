@@ -17,20 +17,34 @@
     flex-direction: column;
     /* Mobile first: stacked */
     width: 100%;
-    gap: 40px;
+    gap: 60px;
+    /* Increased from 40px to 60px for more breathing room */
     justify-content: center;
     align-items: center;
 }
 
+.clock-visual-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+}
+
 .clock-visual {
     width: 100%;
-    max-width: 500px;
-    height: 500px;
-    /* Reduced height on mobile */
-    border-radius: 30px;
-    overflow: hidden;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
-    background: #000;
+    max-width: 700px;
+    aspect-ratio: 1 / 1;
+    /* Maintain square ratio */
+    overflow: visible;
+    /* Allow 3D elements to overflow */
+    background: transparent;
+    padding: 20px;
+    /* Minimal padding for breathing room */
+    padding-left: 30px;
+    /* Slight compensation for perspective */
+    box-sizing: border-box;
+    position: relative;
 }
 
 .clock-selectors {
@@ -42,16 +56,42 @@
     padding: 10px;
 }
 
+/* Mobile adjustments */
+@media (max-width: 899px) {
+    .clock-visual-wrapper {
+        max-width: 600px;
+    }
+
+    .clock-visual {
+        max-width: 600px;
+        padding: 15px;
+        /* Minimal padding on mobile */
+        padding-left: 25px;
+        /* Slight compensation for perspective */
+    }
+}
+
 /* Tablet and up: Row layout */
 @media (min-width: 900px) {
     .clock-layout-wrapper {
         flex-direction: row;
         align-items: flex-start;
+        gap: 80px;
+        /* Increased gap for desktop layout */
+    }
+
+    .clock-visual-wrapper {
+        flex: 1 1 700px;
+        max-width: 900px;
     }
 
     .clock-visual {
-        flex: 1 1 500px;
-        height: 600px;
+        max-width: 800px;
+        /* Slightly larger on desktop */
+        padding: 30px;
+        /* Moderate padding on larger screens */
+        padding-left: 50px;
+        /* Compensate for left perspective shift */
     }
 
     .clock-selectors {

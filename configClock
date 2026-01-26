@@ -1,0 +1,24 @@
+tabs 1 
+    id: 'Base'
+    Libelle: 'Base'
+    contient:
+        colorSelector 1 : Couleur Primaire
+        colorSelector 2 : Couleur Secondaire
+        selector 3 : Motif
+tabs 2 
+    id: 'Chiffre'
+    Libelle: 'Chiffre'
+    contient:
+        selector 1 : Format
+        selector 2 : Taille
+        selector 3 : Couleur
+
+tabs 3 
+    id: 'Aiguilles'
+    Libelle: 'Aiguilles'
+    contient:
+        selector 1 : Style
+        colorSelector 1 : Heure
+        colorSelector 2 : Minute
+        colorSelector 3 : Seconde
+    

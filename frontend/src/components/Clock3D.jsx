@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
-const Clock3D = () => {
+const Clock3D = ({ isExploded = false }) => {
     const mountRef = useRef(null);
-    const [isExploded, setIsExploded] = useState(false);
 
     // Refs for state management in animation loop
     const sceneRef = useRef(null);
+    const cameraRef = useRef(null);
     const componentsRef = useRef([]);
     const frameIdRef = useRef(null);
     const explodedStateRef = useRef(false); // Valid ref for loop access
@@ -47,11 +47,19 @@ const Clock3D = () => {
         const width = mountRef.current.clientWidth;
         const height = mountRef.current.clientHeight;
 
+        // Adjust camera distance based on viewport size
+        const getCameraDistance = (w) => {
+            if (w < 400) return 18;
+            if (w < 600) return 15;
+            return 13;
+        };
+
         const scene = new THREE.Scene();
         sceneRef.current = scene;
 
         const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-        camera.position.set(0, 0, 18);
+        camera.position.set(0, 0, getCameraDistance(width));
+        cameraRef.current = camera;
 
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(width, height);
@@ -203,11 +211,12 @@ const Clock3D = () => {
 
         // Handle Window Resize
         const handleResize = () => {
-            if (!mountRef.current) return;
+            if (!mountRef.current || !cameraRef.current) return;
             const w = mountRef.current.clientWidth;
             const h = mountRef.current.clientHeight;
-            camera.aspect = w / h;
-            camera.updateProjectionMatrix();
+            cameraRef.current.aspect = w / h;
+            cameraRef.current.position.z = getCameraDistance(w);
+            cameraRef.current.updateProjectionMatrix();
             renderer.setSize(w, h);
         };
         window.addEventListener('resize', handleResize);
@@ -225,64 +234,50 @@ const Clock3D = () => {
     }, []);
 
     // Handlers
+    const getPointerPosition = (e) => {
+        if (e.touches && e.touches.length > 0) {
+            return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }
+        return { x: e.clientX, y: e.clientY };
+    };
+
     const handleMouseDown = (e) => {
+        e.preventDefault();
         isDraggingRef.current = true;
-        previousMouseRef.current = { x: e.clientX, y: e.clientY };
+        const pos = getPointerPosition(e);
+        previousMouseRef.current = pos;
         lastInteractionTimeRef.current = Date.now();
     };
 
     const handleMouseUp = () => {
         isDraggingRef.current = false;
-        // Normalize angles logic can be added here if needed, consistent with original
     };
 
     const handleMouseMove = (e) => {
         if (isDraggingRef.current) {
-            const deltaX = e.clientX - previousMouseRef.current.x;
-            const deltaY = e.clientY - previousMouseRef.current.y;
+            e.preventDefault();
+            const pos = getPointerPosition(e);
+            const deltaX = pos.x - previousMouseRef.current.x;
+            const deltaY = pos.y - previousMouseRef.current.y;
             targetRotationRef.current.y += deltaX * SENSIBILITE;
             targetRotationRef.current.x += deltaY * SENSIBILITE;
-            previousMouseRef.current = { x: e.clientX, y: e.clientY };
+            previousMouseRef.current = pos;
             lastInteractionTimeRef.current = Date.now();
         }
     };
 
     return (
-        <div style={{ position: 'relative', width: '100%', height: '100%', background: 'radial-gradient(circle at center, #1a2a3a 0%, #000000 100%)', overflow: 'hidden' }}>
-            {/* UI Button */}
-            <div style={{ position: 'absolute', top: '20px', left: '20px', zIndex: 10 }}>
-                <button
-                    onClick={() => setIsExploded(!isExploded)}
-                    style={{
-                        background: isExploded ? '#3498db' : 'rgba(0, 0, 0, 0.6)',
-                        backdropFilter: 'blur(15px)',
-                        border: `1px solid ${isExploded ? '#3498db' : 'rgba(255, 255, 255, 0.1)'}`,
-                        color: 'white',
-                        padding: '12px 24px',
-                        borderRadius: '8px',
-                        cursor: 'pointer',
-                        fontSize: '0.85rem',
-                        transition: 'all 0.3s ease',
-                        textTransform: 'uppercase',
-                        fontWeight: 'bold',
-                        letterSpacing: '1px',
-                        boxShadow: isExploded ? '0 0 20px rgba(52, 152, 219, 0.4)' : '0 4px 15px rgba(0, 0, 0, 0.3)'
-                    }}
-                >
-                    Vue Éclatée
-                </button>
-            </div>
-
-            {/* Canvas Container */}
-            <div
-                ref={mountRef}
-                style={{ width: '100%', height: '100%', cursor: 'grab' }}
-                onMouseDown={handleMouseDown}
-                onMouseUp={handleMouseUp}
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseUp} // Stop dragging if leaving window
-            />
-        </div>
+        <div
+            ref={mountRef}
+            style={{ position: 'relative', width: '100%', height: '100%', background: 'transparent', overflow: 'visible', cursor: 'grab', touchAction: 'none' }}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseUp}
+            onTouchStart={handleMouseDown}
+            onTouchEnd={handleMouseUp}
+            onTouchMove={handleMouseMove}
+        />
     );
 };
 
