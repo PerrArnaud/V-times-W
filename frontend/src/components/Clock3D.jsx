@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { sharedColors } from '../data/clockOptions';
 
-const Clock3D = ({ isExploded = false }) => {
+const Clock3D = ({ isExploded = false, clockConfig = {} }) => {
     const mountRef = useRef(null);
 
     // Refs for state management in animation loop
@@ -23,6 +24,17 @@ const Clock3D = ({ isExploded = false }) => {
     const VALEURS_ECLATEES = { rotX: -0.55, rotY: 0.63, rotZ: 0, posX: -1.90, posY: -0.90, posZ: 0 };
     const DELAI_REINITIALISATION = 3000;
     const SENSIBILITE = 0.005;
+
+    // Helper: Convert color name to hex
+    const getColorHex = (colorName) => {
+        const colorObj = sharedColors.find(c => c.name === colorName);
+        return colorObj ? colorObj.hex : '#2C2C2C'; // Default to black
+    };
+
+    // Helper: Convert hex to THREE.Color
+    const hexToThreeColor = (hex) => {
+        return new THREE.Color(hex);
+    };
 
     // Sync state to ref
     useEffect(() => {
@@ -46,6 +58,13 @@ const Clock3D = ({ isExploded = false }) => {
         // --- SETUP ---
         const width = mountRef.current.clientWidth;
         const height = mountRef.current.clientHeight;
+
+        // Extract colors from config
+        const primaryColor = hexToThreeColor(getColorHex(clockConfig['Couleur Primaire']));
+        const secondaryColor = hexToThreeColor(getColorHex(clockConfig['Couleur Secondaire']));
+        const hourColor = hexToThreeColor(getColorHex(clockConfig['Heure']));
+        const minuteColor = hexToThreeColor(getColorHex(clockConfig['Minute']));
+        const secondColor = hexToThreeColor(getColorHex(clockConfig['Seconde']));
 
         // Adjust camera distance based on viewport size
         const getCameraDistance = (w) => {
@@ -105,30 +124,36 @@ const Clock3D = ({ isExploded = false }) => {
         // --- BUILDING CLOCK ---
         const circleGeo = new THREE.CircleGeometry(5, 64);
 
-        // 1. Back Case
-        const backCase = new THREE.Mesh(circleGeo, createFlatMaterial(0x2c3e50, 1));
+        // 1. Back Case (Secondary Color)
+        const backCase = new THREE.Mesh(circleGeo, createFlatMaterial(secondaryColor, 1));
         backCase.position.z = -0.05;
         addComponent(backCase, 0);
 
-        // 2. Dial
-        const dial = new THREE.Mesh(circleGeo, createFlatMaterial(0xffffff, 0));
+        // 2. Dial (Primary Color)
+        const dial = new THREE.Mesh(circleGeo, createFlatMaterial(primaryColor, 0));
         dial.position.z = 0;
         addComponent(dial, 1);
 
-        // 3. Bezel
+        // 3. Bezel (Darker version of secondary)
+        const bezelColor = secondaryColor.clone().multiplyScalar(0.7);
         const bezelGeo = new THREE.TorusGeometry(5, 0.1, 16, 100);
-        const bezel = new THREE.Mesh(bezelGeo, createFlatMaterial(0x95a5a6, 0.5));
+        const bezel = new THREE.Mesh(bezelGeo, createFlatMaterial(bezelColor, 0.5));
         bezel.position.z = 0.01;
         addComponent(bezel, 2);
 
-        // 4. Graduations
+        // 4. Graduations (Contrast with primary)
         const gradGroup = new THREE.Group();
+        const gradColor = primaryColor.clone();
+        const isLight = (gradColor.r + gradColor.g + gradColor.b) / 3 > 0.5;
+        const gradMainColor = isLight ? new THREE.Color(0x2c3e50) : new THREE.Color(0xffffff);
+        const gradMinorColor = gradMainColor.clone().multiplyScalar(0.5);
+
         for (let i = 0; i < 60; i++) {
             const isHour = i % 5 === 0;
             const w = isHour ? 0.15 : 0.05;
             const h = isHour ? 0.6 : 0.3;
             const geo = new THREE.PlaneGeometry(w, h);
-            const mat = createFlatMaterial(isHour ? 0x2c3e50 : 0xbdc3c7, 1);
+            const mat = createFlatMaterial(isHour ? gradMainColor : gradMinorColor, 1);
             const mesh = new THREE.Mesh(geo, mat);
             const angle = (i / 60) * Math.PI * 2;
             mesh.position.x = Math.sin(angle) * 4.4;
@@ -139,26 +164,27 @@ const Clock3D = ({ isExploded = false }) => {
         gradGroup.position.z = 0.02;
         addComponent(gradGroup, 3);
 
-        // 5. Hands
-        const hourHand = new THREE.Mesh(createNeedleGeometry(0.35, 0.15, 2.8), createFlatMaterial(0x2c3e50, 3));
+        // 5. Hands (Custom colors from config)
+        const hourHand = new THREE.Mesh(createNeedleGeometry(0.35, 0.15, 2.8), createFlatMaterial(hourColor, 3));
         hourHand.position.z = 0.03;
         addComponent(hourHand, 4);
 
-        const minuteHand = new THREE.Mesh(createNeedleGeometry(0.25, 0.1, 4.0), createFlatMaterial(0x2c3e50, 4));
+        const minuteHand = new THREE.Mesh(createNeedleGeometry(0.25, 0.1, 4.0), createFlatMaterial(minuteColor, 4));
         minuteHand.position.z = 0.04;
         addComponent(minuteHand, 5);
 
-        const secondHand = new THREE.Mesh(createNeedleGeometry(0.1, 0.05, 4.5), createFlatMaterial(0xe74c3c, 5));
+        const secondHand = new THREE.Mesh(createNeedleGeometry(0.1, 0.05, 4.5), createFlatMaterial(secondColor, 5));
         secondHand.position.z = 0.05;
         addComponent(secondHand, 6);
 
-        // Pin
-        const pin = new THREE.Mesh(new THREE.CircleGeometry(0.2, 32), createFlatMaterial(0x2c3e50, 6));
+        // Pin (matches hour hand)
+        const pin = new THREE.Mesh(new THREE.CircleGeometry(0.2, 32), createFlatMaterial(hourColor, 6));
         pin.position.z = 0.06;
         addComponent(pin, 7);
 
-        // 6. Glass
-        const glass = new THREE.Mesh(circleGeo, createFlatMaterial(0xffffff, 0, 0.05));
+        // 6. Glass (subtle tint based on primary)
+        const glassColor = primaryColor.clone().multiplyScalar(1.2);
+        const glass = new THREE.Mesh(circleGeo, createFlatMaterial(glassColor, 0, 0.05));
         glass.position.z = 0.1;
         addComponent(glass, 8);
 
@@ -231,7 +257,7 @@ const Clock3D = ({ isExploded = false }) => {
             renderer.dispose();
             componentsRef.current = [];
         };
-    }, []);
+    }, [clockConfig]);
 
     // Handlers
     const getPointerPosition = (e) => {

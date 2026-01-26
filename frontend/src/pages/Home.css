@@ -39,10 +39,7 @@
     overflow: visible;
     /* Allow 3D elements to overflow */
     background: transparent;
-    padding: 20px;
-    /* Minimal padding for breathing room */
-    padding-left: 30px;
-    /* Slight compensation for perspective */
+    padding: 0;
     box-sizing: border-box;
     position: relative;
 }
@@ -64,10 +61,7 @@
 
     .clock-visual {
         max-width: 600px;
-        padding: 15px;
-        /* Minimal padding on mobile */
-        padding-left: 25px;
-        /* Slight compensation for perspective */
+        padding: 0;
     }
 }
 
@@ -88,10 +82,7 @@
     .clock-visual {
         max-width: 800px;
         /* Slightly larger on desktop */
-        padding: 30px;
-        /* Moderate padding on larger screens */
-        padding-left: 50px;
-        /* Compensate for left perspective shift */
+        padding: 0;
     }
 
     .clock-selectors {

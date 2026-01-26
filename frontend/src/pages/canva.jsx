@@ -6,23 +6,50 @@ import Clock3D from '../components/Clock3D';
 import SettingsClock from '../components/settingsClock';
 import Selector from '../components/Selector';
 import ColorSelector from '../components/ColorSelector';
-import { formatOptions, needleOptions, dialOptions, colorOptions } from '../data/clockOptions';
+import { clockTabsData } from '../data/clockOptions';
 import './Home.css';
 
 const Canva = () => {
     const [activeTabId, setActiveTabId] = useState('clock');
 
     // Config States
-    const [clockFormat, setClockFormat] = useState('Alphanumérique');
-    const [clockNeedles, setClockNeedles] = useState('Bâton');
-    const [clockDial, setClockDial] = useState('Minimaliste');
-    const [clockColor, setClockColor] = useState('Noir & Blanc');
+    const [activeConfigTab, setActiveConfigTab] = useState(clockTabsData[0].id);
+    const [clockConfig, setClockConfig] = useState(() => {
+        // Initialize config with default values (first option of each selector)
+        const initialConfig = {};
+        clockTabsData.forEach(tab => {
+            tab.content.forEach(item => {
+                if (item.options && item.options.length > 0) {
+                    // Handle color objects vs simple strings
+                    const firstOption = item.options[0];
+                    initialConfig[item.label] = typeof firstOption === 'object' ? firstOption.name : firstOption;
+                }
+            });
+        });
+        return initialConfig;
+    });
+
     const [isExploded, setIsExploded] = useState(false);
+
+    const handleConfigChange = (label, value) => {
+        setClockConfig(prev => ({
+            ...prev,
+            [label]: value
+        }));
+    };
 
     const handleSearch = (value) => {
         console.log("Recherche:", value);
         // Implement search logic here
     };
+
+    // Prepare tabs for the Tabs component
+    const configTabs = clockTabsData.map(tab => ({
+        id: tab.id,
+        label: tab.libelle
+    }));
+
+    const activeTabContent = clockTabsData.find(t => t.id === activeConfigTab)?.content || [];
 
     const tabsData = [
         {
@@ -39,37 +66,56 @@ const Canva = () => {
                         {/* Left: 3D Clock Visualization */}
                         <div className="clock-visual-wrapper">
                             <div className="clock-visual">
-                                <Clock3D isExploded={isExploded} />
+                                <Clock3D isExploded={isExploded} clockConfig={clockConfig} />
                             </div>
                             <SettingsClock isExploded={isExploded} setIsExploded={setIsExploded} />
                         </div>
 
                         {/* Right: Selectors Configuration */}
                         <div className="clock-selectors">
-                            <Selector
-                                label="Format"
-                                options={formatOptions}
-                                value={clockFormat}
-                                onChange={setClockFormat}
-                            />
-                            <Selector
-                                label="Aiguilles"
-                                options={needleOptions}
-                                value={clockNeedles}
-                                onChange={setClockNeedles}
-                            />
-                            <Selector
-                                label="Cadran"
-                                options={dialOptions}
-                                value={clockDial}
-                                onChange={setClockDial}
-                            />
-                            <ColorSelector
-                                label="Couleur"
-                                options={colorOptions}
-                                value={clockColor}
-                                onChange={setClockColor}
-                            />
+                            {/* Sub-tabs for configuration sections */}
+                            <div style={{ marginBottom: '20px' }}>
+                                <Tabs
+                                    tabs={configTabs}
+                                    activeTabId={activeConfigTab}
+                                    onTabChange={setActiveConfigTab}
+                                />
+                            </div>
+
+                            {/* Dynamic Selectors Render */}
+                            <div className="selectors-list">
+                                {activeTabContent.map((item, index) => {
+                                    const value = clockConfig[item.label];
+
+                                    if (item.type === 'colorSelector') {
+                                        return (
+                                            <ColorSelector
+                                                key={`${activeConfigTab}-${index}`}
+                                                label={item.label}
+                                                options={item.options}
+                                                value={value}
+                                                onChange={(newValue) => handleConfigChange(item.label, newValue)}
+                                            />
+                                        );
+                                    } else {
+                                        // Ensure options are primitives (strings/numbers) for Selector
+                                        // If options are objects (like colors), extract the 'name' property
+                                        const selectorOptions = item.options.map(opt =>
+                                            typeof opt === 'object' && opt !== null ? opt.name : opt
+                                        );
+
+                                        return (
+                                            <Selector
+                                                key={`${activeConfigTab}-${index}`}
+                                                label={item.label}
+                                                options={selectorOptions}
+                                                value={value}
+                                                onChange={(newValue) => handleConfigChange(item.label, newValue)}
+                                            />
+                                        );
+                                    }
+                                })}
+                            </div>
                         </div>
                     </div>
                 </div>

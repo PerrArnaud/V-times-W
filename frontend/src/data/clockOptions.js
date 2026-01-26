@@ -2,7 +2,6 @@ export const sharedColors = [
     { name: 'Noir & Blanc', hex: '#2C2C2C' },
     { name: 'Sable', hex: '#E6BE8A' },
     { name: 'Océan', hex: '#2B65EC' },
-    { name: 'Forêt', hex: '#228B22' },
     { name: 'Mystic Purple', hex: '#8A2BE2' },
     { name: 'Deep Space', hex: '#191970' },
 
