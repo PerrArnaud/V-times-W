@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 300">
+  <!-- Glaive/Sword shape: Wide base, slight bulge, sharp taper -->
+  <!-- Pivot at 50,0 -->
+  <path d="M50 0 L70 50 L60 200 L50 250 L40 200 L30 50 Z" />
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 400">
+  <!-- Pencil shape -->
+  <rect x="42" y="0" width="16" height="320" />
+  <!-- Tip -->
+  <path d="M42 320 L50 370 L58 320 Z" />
+</svg>

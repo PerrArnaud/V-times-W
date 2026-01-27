@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Binary representation -->
+  <text x="50" y="15" text-anchor="middle" font-family="Courier New" font-size="8">1100</text>
+  <text x="85" y="55" text-anchor="middle" font-family="Courier New" font-size="8">0011</text>
+  <text x="50" y="95" text-anchor="middle" font-family="Courier New" font-size="8">0110</text>
+  <text x="15" y="55" text-anchor="middle" font-family="Courier New" font-size="8">1001</text>
+</svg>

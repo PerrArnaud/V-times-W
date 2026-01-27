@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 300">
+  <!-- Syringe: main body then thin needle -->
+  <rect x="40" y="0" width="20" height="150" />
+  <rect x="48" y="150" width="4" height="100" />
+</svg>

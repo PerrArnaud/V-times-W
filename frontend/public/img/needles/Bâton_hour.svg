@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 300">
+  <!-- Simple rectangular shape for Bâton style -->
+  <!-- Starts at y=0 which will be the pivot -->
+  <rect x="35" y="0" width="30" height="250" rx="5" ry="5" />
+</svg>

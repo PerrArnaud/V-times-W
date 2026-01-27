@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Geometric shapes using paths -->
+  <!-- Top Rect -->
+  <path d="M48 5 L52 5 L52 15 L48 15 Z" />
+  <!-- Right Rect -->
+  <path d="M85 48 L95 48 L95 52 L85 52 Z" />
+  <!-- Bottom Rect -->
+  <path d="M48 85 L52 85 L52 95 L48 95 Z" />
+  <!-- Left Rect -->
+  <path d="M5 48 L15 48 L15 52 L5 52 Z" />
+  
+  <!-- Circles as paths -->
+  <!-- Top Left -->
+  <path d="M28 26 A2 2 0 1 1 28 30 A2 2 0 1 1 28 26 Z" />
+  <!-- Top Right -->
+  <path d="M72 26 A2 2 0 1 1 72 30 A2 2 0 1 1 72 26 Z" />
+  <!-- Bottom Right -->
+  <path d="M72 70 A2 2 0 1 1 72 74 A2 2 0 1 1 72 70 Z" />
+  <!-- Bottom Left -->
+  <path d="M28 70 A2 2 0 1 1 28 74 A2 2 0 1 1 28 70 Z" />
+</svg>

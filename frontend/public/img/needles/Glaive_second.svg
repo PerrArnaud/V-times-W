@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 450">
+  <!-- Thin needle with diamond tip/counterweight -->
+  <rect x="48" y="0" width="4" height="400" />
+  <!-- Diamond tip -->
+  <path d="M50 400 L55 420 L50 440 L45 420 Z" />
+  <!-- Counterweight -->
+  <path d="M50 0 L60 -20 L50 -40 L40 -20 Z" />
+</svg>

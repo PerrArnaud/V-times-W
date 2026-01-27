@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Planets as paths -->
+  <!-- Top -->
+  <path d="M50 6 A4 4 0 1 1 50 14 A4 4 0 1 1 50 6 Z" />
+  <!-- Right -->
+  <path d="M90 47 A3 3 0 1 1 90 53 A3 3 0 1 1 90 47 Z" />
+  <!-- Bottom -->
+  <path d="M50 85 A5 5 0 1 1 50 95 A5 5 0 1 1 50 85 Z" />
+  <!-- Left -->
+  <path d="M10 48 A2 2 0 1 1 10 52 A2 2 0 1 1 10 48 Z" />
+</svg>
