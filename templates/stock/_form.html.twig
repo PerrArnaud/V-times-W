@@ -1,4 +1,103 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div class="mb-3">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name) }}
+        {{ form_errors(form.name) }}
+    </div>
+    
+    <div class="mb-3">
+        {{ form_label(form.quantity) }}
+        {{ form_widget(form.quantity) }}
+        {{ form_errors(form.quantity) }}
+    </div>
+    
+    <div class="mb-3 form-check">
+        {{ form_widget(form.customPrice) }}
+        {{ form_label(form.customPrice) }}
+        {{ form_errors(form.customPrice) }}
+    </div>
+    
+    <div class="mb-3">
+        {{ form_label(form.price) }}
+        {{ form_widget(form.price) }}
+        {{ form_errors(form.price) }}
+        <small class="form-text text-muted">Prix par défaut: 20.00€. Cochez la case ci-dessus pour modifier.</small>
+    </div>
+    
+    <div class="mb-3">
+        {{ form_label(form.imageFile) }}
+        {{ form_widget(form.imageFile) }}
+        {{ form_errors(form.imageFile) }}
+        {{ form_help(form.imageFile) }}
+    </div>
+    
+    {{ form_rest(form) }}
+    
+    <button class="btn btn-primary" type="submit">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Trouver les éléments par leur structure, pas par ID fixe
+        const form = document.querySelector('form[name="stock"]');
+        if (!form) {
+            console.error('Formulaire Stock non trouvé');
+            return;
+        }
+        
+        const checkbox = form.querySelector('input[type="checkbox"]');
+        const priceField = form.querySelector('input[id$="price"]'); // ID qui se termine par "price"
+        
+        if (!checkbox || !priceField) {
+            console.error('Champs non trouvés:', { checkbox: !!checkbox, priceField: !!priceField });
+            return;
+        }
+        
+        console.log('Champs trouvés:', { checkboxId: checkbox.id, priceFieldId: priceField.id });
+        
+        const DEFAULT_PRICE = 20.00;
+        
+        // Fonction pour mettre à jour l'état du champ
+        function updatePriceField() {
+            if (checkbox.checked) {
+                priceField.removeAttribute('readonly');
+                priceField.classList.remove('bg-light');
+            } else {
+                priceField.setAttribute('readonly', 'readonly');
+                priceField.classList.add('bg-light');
+                priceField.value = DEFAULT_PRICE.toFixed(2);
+            }
+        }
+        
+        // Initialiser l'état au chargement
+        const currentValue = priceField.value.replace(',', '.');
+        const currentPrice = parseFloat(currentValue) || DEFAULT_PRICE;
+        
+        // Si le prix actuel n'est pas le prix par défaut, cocher la case
+        if (Math.abs(currentPrice - DEFAULT_PRICE) > 0.001) {
+            checkbox.checked = true;
+        } else {
+            // Assurer que le prix par défaut est bien affiché
+            priceField.value = DEFAULT_PRICE.toFixed(2);
+        }
+        
+        // Appliquer l'état initial
+        updatePriceField();
+        
+        // Gérer le changement de la case à cocher
+        checkbox.addEventListener('change', function() {
+            updatePriceField();
+            if (this.checked) {
+                priceField.focus();
+                priceField.select();
+            }
+        });
+        
+        // IMPORTANT: Retirer readonly avant la soumission pour que la valeur soit envoyée
+        form.addEventListener('submit', function(e) {
+            if (priceField.hasAttribute('readonly')) {
+                priceField.removeAttribute('readonly');
+            }
+        });
+    });
+</script>

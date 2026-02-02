@@ -38,6 +38,7 @@ class Stock
     public function __construct()
     {
         $this->preOrders = new ArrayCollection();
+        $this->price = 20.0; // Prix par défaut
     }
 
     public function getId(): ?int

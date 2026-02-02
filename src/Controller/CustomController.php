@@ -95,7 +95,7 @@ final class CustomController extends AbstractController
             
             $this->addFlash('success', 'Votre commande personnalisée a été enregistrée ! Nous vous contacterons sous 48h.');
             
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_custom');
         }
 
         return $this->render('custom/index.html.twig', [
