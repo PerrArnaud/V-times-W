@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 450">
+  <!-- Just a thin needle with a counterweight visual -->
+  <rect x="48" y="0" width="4" height="400" />
+  <circle cx="50" cy="50" r="4" />
+</svg>

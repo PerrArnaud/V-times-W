@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 450">
+  <!-- Very thin and long -->
+  <rect x="45" y="0" width="10" height="400" />
+  <!-- A small counterbalance circle at the top (pivot) -->
+  <circle cx="50" cy="0" r="15" />
+</svg>

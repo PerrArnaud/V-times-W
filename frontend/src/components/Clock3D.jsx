@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { SVGLoader } from 'three/examples/jsm/loaders/SVGLoader';
 import { sharedColors } from '../data/clockOptions';
 
 const Clock3D = ({ isExploded = false, clockConfig = {} }) => {
@@ -54,6 +55,9 @@ const Clock3D = ({ isExploded = false, clockConfig = {} }) => {
 
     useEffect(() => {
         if (!mountRef.current) return;
+
+        // --- SVG HELPER ---
+        const loader = new SVGLoader();
 
         // --- SETUP ---
         const width = mountRef.current.clientWidth;
@@ -121,72 +125,327 @@ const Clock3D = ({ isExploded = false, clockConfig = {} }) => {
             componentsRef.current.push(obj);
         };
 
+        // --- VISIBILITY CONFIG ---
+        const showBackplate = false; // Set to false to hide
+        const showPin = true;       // Set to false to hide
+        const showGlass = false;     // Set to false to hide
+
+        const showDial = true;
+        const showBezel = false;
+        const showGraduations = false;
+        const showHourHand = true;
+        const showMinuteHand = true;
+        const showSecondHand = true;
+
         // --- BUILDING CLOCK ---
         const circleGeo = new THREE.CircleGeometry(5, 64);
 
         // 1. Back Case (Secondary Color)
-        const backCase = new THREE.Mesh(circleGeo, createFlatMaterial(secondaryColor, 1));
-        backCase.position.z = -0.05;
-        addComponent(backCase, 0);
+        if (showBackplate) {
+            const backCase = new THREE.Mesh(circleGeo, createFlatMaterial(secondaryColor, 1));
+            backCase.position.z = -0.05;
+            addComponent(backCase, 0);
+        }
 
         // 2. Dial (Primary Color)
-        const dial = new THREE.Mesh(circleGeo, createFlatMaterial(primaryColor, 0));
-        dial.position.z = 0;
-        addComponent(dial, 1);
+        if (showDial) {
+            const dial = new THREE.Mesh(circleGeo, createFlatMaterial(primaryColor, 0));
+            dial.position.z = 0;
+            addComponent(dial, 1);
+        }
 
         // 3. Bezel (Darker version of secondary)
-        const bezelColor = secondaryColor.clone().multiplyScalar(0.7);
-        const bezelGeo = new THREE.TorusGeometry(5, 0.1, 16, 100);
-        const bezel = new THREE.Mesh(bezelGeo, createFlatMaterial(bezelColor, 0.5));
-        bezel.position.z = 0.01;
-        addComponent(bezel, 2);
+        if (showBezel) {
+            const bezelColor = secondaryColor.clone().multiplyScalar(0.7);
+            const bezelGeo = new THREE.TorusGeometry(5, 0.1, 16, 100);
+            const bezel = new THREE.Mesh(bezelGeo, createFlatMaterial(bezelColor, 0.5));
+            bezel.position.z = 0.01;
+            addComponent(bezel, 2);
+        }
 
         // 4. Graduations (Contrast with primary)
-        const gradGroup = new THREE.Group();
-        const gradColor = primaryColor.clone();
-        const isLight = (gradColor.r + gradColor.g + gradColor.b) / 3 > 0.5;
-        const gradMainColor = isLight ? new THREE.Color(0x2c3e50) : new THREE.Color(0xffffff);
-        const gradMinorColor = gradMainColor.clone().multiplyScalar(0.5);
+        if (showGraduations) {
+            const gradGroup = new THREE.Group();
+            const gradColor = primaryColor.clone();
+            const isLight = (gradColor.r + gradColor.g + gradColor.b) / 3 > 0.5;
+            const gradMainColor = isLight ? new THREE.Color(0x2c3e50) : new THREE.Color(0xffffff);
+            const gradMinorColor = gradMainColor.clone().multiplyScalar(0.5);
 
-        for (let i = 0; i < 60; i++) {
-            const isHour = i % 5 === 0;
-            const w = isHour ? 0.15 : 0.05;
-            const h = isHour ? 0.6 : 0.3;
-            const geo = new THREE.PlaneGeometry(w, h);
-            const mat = createFlatMaterial(isHour ? gradMainColor : gradMinorColor, 1);
-            const mesh = new THREE.Mesh(geo, mat);
-            const angle = (i / 60) * Math.PI * 2;
-            mesh.position.x = Math.sin(angle) * 4.4;
-            mesh.position.y = Math.cos(angle) * 4.4;
-            mesh.rotation.z = -angle;
-            gradGroup.add(mesh);
+            for (let i = 0; i < 60; i++) {
+                const isHour = i % 5 === 0;
+                const w = isHour ? 0.15 : 0.05;
+                const h = isHour ? 0.6 : 0.3;
+                const geo = new THREE.PlaneGeometry(w, h);
+                const mat = createFlatMaterial(isHour ? gradMainColor : gradMinorColor, 1);
+                const mesh = new THREE.Mesh(geo, mat);
+                const angle = (i / 60) * Math.PI * 2;
+                mesh.position.x = Math.sin(angle) * 4.4;
+                mesh.position.y = Math.cos(angle) * 4.4;
+                mesh.rotation.z = -angle;
+                gradGroup.add(mesh);
+            }
+            gradGroup.position.z = 0.02;
+            addComponent(gradGroup, 3);
         }
-        gradGroup.position.z = 0.02;
-        addComponent(gradGroup, 3);
+
+        // --- NUMBERS (SVG) ---
+        // Load numbers based on Format
+        // Since we don't have procedural numbers, we only render if SVG loads.
+        const format = clockConfig['Format'];
+        if (format) {
+            loader.load(
+                `/img/numbers/${format}.svg`,
+                (data) => {
+                    const paths = data.paths;
+                    const shapes = [];
+                    paths.forEach((p) => shapes.push(...SVGLoader.createShapes(p)));
+
+                    if (shapes.length === 0) return;
+
+                    const geo = new THREE.ExtrudeGeometry(shapes, { depth: 0.05, bevelEnabled: false });
+
+                    // --- ViewBox Based Scaling/Centering ---
+                    // This preserves the layout relative to the canvas center
+                    const xml = data.xml;
+                    let viewBox = { x: 0, y: 0, w: 100, h: 100 }; // Default fallback
+
+                    if (xml && xml.getAttribute('viewBox')) {
+                        const vb = xml.getAttribute('viewBox').split(/[ ,]+/).map(parseFloat);
+                        if (vb.length === 4) {
+                            viewBox = { x: vb[0], y: vb[1], w: vb[2], h: vb[3] };
+                        }
+                    }
+
+                    // 1. Center the geometry based on ViewBox center
+                    const centerX = viewBox.x + viewBox.w / 2;
+                    const centerY = viewBox.y + viewBox.h / 2;
+                    geo.translate(-centerX, -centerY, 0);
+
+                    // 2. Scale to fit clock face
+                    // Clock diameter is ~10 units (radius 5).
+                    // We assume the SVG canvas represents the full clock face.
+                    // Scale factor = TargetSize / ViewBoxSize
+                    // Use the smaller dimension to fit? Or typically Width=Height for clock.
+                    const scale = 8.5 / viewBox.w; // 8.5 to leave some margin within 10 unit dial
+                    geo.scale(scale, -scale, 1); // Flip Y
+
+                    // Color logic
+                    const numColorName = clockConfig['Couleur'] || 'Noir & Blanc';
+                    const numColorHex = getColorHex(numColorName);
+                    const numColor = hexToThreeColor(numColorHex);
+
+                    const mesh = new THREE.Mesh(geo, createFlatMaterial(numColor, 3));
+                    mesh.position.z = 0.025;
+                    addComponent(mesh, 3);
+                }
+            );
+        }
+
+        // --- SVG HELPER ---
+        // const loader = new SVGLoader(); // Moved to top
+
+        const loadHandMesh = (type, color, zPos, fallbackGeoFn, layerIndex, setRef) => {
+            const url = `/img/needles/${clockConfig['Style'] || 'Bâton'}.svg`; // Assuming 'Style' is the config key
+
+            // Try to load SVG
+            loader.load(
+                url,
+                (data) => {
+                    // Success: Create 3D shape from SVG paths
+                    const paths = data.paths;
+                    const shapes = [];
+
+                    paths.forEach((path) => {
+                        const pathShapes = SVGLoader.createShapes(path);
+                        shapes.push(...pathShapes);
+                    });
+
+                    if (shapes.length === 0) return;
+
+                    const extrudeSettings = {
+                        depth: 0.05, // Thickness
+                        bevelEnabled: false
+                    };
+
+                    const geometry = new THREE.ExtrudeGeometry(shapes, extrudeSettings);
+
+                    // Center/Pivot adjustment
+                    // We assume the SVG is drawn such that we need to center it horizontally
+                    // and align the bottom to 0 (pivot point)
+                    geometry.computeBoundingBox();
+                    const box = geometry.boundingBox;
+                    const xSize = box.max.x - box.min.x;
+                    const ySize = box.max.y - box.min.y;
+
+                    // Center X, Align Bottom Y to 0
+                    geometry.translate(-(box.min.x + xSize / 2), -box.min.y, 0);
+
+                    // Scale down? SVGs might be huge (pixels). 
+                    // Our clock is radius ~5 units.
+                    // If SVG is 100px tall, it will be huge. 
+                    // Heuristic: Scale based on height to match roughly 3-4 units?
+                    // Or let user handle it. For now, let's normalize height to ~4 units.
+                    const scale = 4 / ySize;
+                    geometry.scale(scale, scale, 1);
+
+                    // Flip Y because SVG coordinates are top-down, Three.js is bottom-up?
+                    // SVGLoader usually handles this but sometimes we need to flip. 
+                    // Actually SVGLoader.createShapes usually results in correct orientation if we convert properly, 
+                    // but often Y is inverted. 
+                    geometry.scale(1, -1, 1);
+
+                    const mesh = new THREE.Mesh(geometry, createFlatMaterial(color, layerIndex));
+                    mesh.position.z = zPos;
+
+                    // Add to scene/group
+                    addComponent(mesh, layerIndex);
+                    if (setRef) setRef(mesh);
+                },
+                undefined, // Progress
+                (error) => {
+                    // Error/Fallback: Use procedural geometry
+                    // console.warn('SVG load failed, using fallback:', url);
+                    const mesh = new THREE.Mesh(fallbackGeoFn(), createFlatMaterial(color, layerIndex));
+                    mesh.position.z = zPos;
+                    addComponent(mesh, layerIndex);
+                    if (setRef) setRef(mesh);
+                }
+            );
+        };
 
         // 5. Hands (Custom colors from config)
-        const hourHand = new THREE.Mesh(createNeedleGeometry(0.35, 0.15, 2.8), createFlatMaterial(hourColor, 3));
-        hourHand.position.z = 0.03;
-        addComponent(hourHand, 4);
+        let hourHand, minuteHand, secondHand;
 
-        const minuteHand = new THREE.Mesh(createNeedleGeometry(0.25, 0.1, 4.0), createFlatMaterial(minuteColor, 4));
-        minuteHand.position.z = 0.04;
-        addComponent(minuteHand, 5);
+        if (showHourHand) {
+            // Procedural fallback for Hour
+            const fallback = () => createNeedleGeometry(0.35, 0.15, 2.8);
+            // We need to set the ref, but loadHandMesh is async for SVG.
+            // We pass a setter function.
+            const setHourRef = (mesh) => { hourHand = mesh; };
 
-        const secondHand = new THREE.Mesh(createNeedleGeometry(0.1, 0.05, 4.5), createFlatMaterial(secondColor, 5));
-        secondHand.position.z = 0.05;
-        addComponent(secondHand, 6);
+            // Note: Reuse logic. 
+            // We should use a specific SVG for Hour vs Minute? 
+            // Usually a style pack has "hour.svg", "minute.svg". 
+            // User request: "interchangeable... avec des fichiers svg". 
+            // Let's assume files are named "{Style}_hour.svg", "{Style}_minute.svg"?
+            // Or just "{Style}.svg" and we scale it? 
+            // The request says "elements... interchangeable". 
+            // Let's try to load specifically named files if possible, or fallback to style.
+
+            // Refined Strategy: 
+            // Load `${clockConfig['Style']}_hour.svg`
+
+            const style = clockConfig['Style'] || 'Bâton';
+
+            // Inline modified loader for specific hand types to simplify for now
+            loader.load(
+                `/img/needles/${style}_hour.svg`,
+                (data) => {
+                    const paths = data.paths;
+                    const shapes = [];
+                    paths.forEach((p) => shapes.push(...SVGLoader.createShapes(p)));
+                    const geo = new THREE.ExtrudeGeometry(shapes, { depth: 0.05, bevelEnabled: false });
+                    geo.computeBoundingBox();
+                    const box = geo.boundingBox;
+                    geo.translate(-(box.min.x + (box.max.x - box.min.x) / 2), -box.min.y, 0);
+                    // Scale to target length ~3
+                    const h = box.max.y - box.min.y;
+                    const s = 2.8 / (h || 1);
+                    geo.scale(s, -s, 1); // Flip Y
+
+                    const mesh = new THREE.Mesh(geo, createFlatMaterial(hourColor, 3));
+                    mesh.position.z = 0.03;
+                    addComponent(mesh, 4);
+                    hourHand = mesh;
+                },
+                undefined,
+                () => {
+                    const mesh = new THREE.Mesh(createNeedleGeometry(0.35, 0.15, 2.8), createFlatMaterial(hourColor, 3));
+                    mesh.position.z = 0.03;
+                    addComponent(mesh, 4);
+                    hourHand = mesh;
+                }
+            );
+        }
+
+        if (showMinuteHand) {
+            const style = clockConfig['Style'] || 'Bâton';
+            loader.load(
+                `/img/needles/${style}_minute.svg`,
+                (data) => {
+                    const paths = data.paths;
+                    const shapes = [];
+                    paths.forEach((p) => shapes.push(...SVGLoader.createShapes(p)));
+                    const geo = new THREE.ExtrudeGeometry(shapes, { depth: 0.05, bevelEnabled: false });
+                    geo.computeBoundingBox();
+                    const box = geo.boundingBox;
+                    geo.translate(-(box.min.x + (box.max.x - box.min.x) / 2), -box.min.y, 0);
+                    // Scale to target length ~4
+                    const h = box.max.y - box.min.y;
+                    const s = 4.0 / (h || 1);
+                    geo.scale(s, -s, 1);
+
+                    const mesh = new THREE.Mesh(geo, createFlatMaterial(minuteColor, 4));
+                    mesh.position.z = 0.04;
+                    addComponent(mesh, 5);
+                    minuteHand = mesh;
+                },
+                undefined,
+                () => {
+                    const mesh = new THREE.Mesh(createNeedleGeometry(0.25, 0.1, 4.0), createFlatMaterial(minuteColor, 4));
+                    mesh.position.z = 0.04;
+                    addComponent(mesh, 5);
+                    minuteHand = mesh;
+                }
+            );
+        }
+
+        if (showSecondHand) {
+            const style = clockConfig['Style'] || 'Bâton';
+            loader.load(
+                `/img/needles/${style}_second.svg`,
+                (data) => {
+                    const paths = data.paths;
+                    const shapes = [];
+                    paths.forEach((p) => shapes.push(...SVGLoader.createShapes(p)));
+                    const geo = new THREE.ExtrudeGeometry(shapes, { depth: 0.05, bevelEnabled: false });
+                    geo.computeBoundingBox();
+                    const box = geo.boundingBox;
+                    geo.translate(-(box.min.x + (box.max.x - box.min.x) / 2), -box.min.y, 0);
+                    // Scale to target length ~4.5
+                    const h = box.max.y - box.min.y;
+                    const s = 4.5 / (h || 1);
+                    geo.scale(s, -s, 1);
+
+                    const mesh = new THREE.Mesh(geo, createFlatMaterial(secondColor, 5));
+                    mesh.position.z = 0.05;
+                    addComponent(mesh, 6);
+                    secondHand = mesh;
+                },
+                undefined,
+                () => {
+                    const mesh = new THREE.Mesh(createNeedleGeometry(0.1, 0.05, 4.5), createFlatMaterial(secondColor, 5));
+                    mesh.position.z = 0.05;
+                    addComponent(mesh, 6);
+                    secondHand = mesh;
+                }
+            );
+        }
 
         // Pin (matches hour hand)
-        const pin = new THREE.Mesh(new THREE.CircleGeometry(0.2, 32), createFlatMaterial(hourColor, 6));
-        pin.position.z = 0.06;
-        addComponent(pin, 7);
+        if (showPin) {
+            const pin = new THREE.Mesh(new THREE.CircleGeometry(0.2, 32), createFlatMaterial(hourColor, 6));
+            pin.position.z = 0.06;
+            addComponent(pin, 7);
+        }
 
         // 6. Glass (subtle tint based on primary)
-        const glassColor = primaryColor.clone().multiplyScalar(1.2);
-        const glass = new THREE.Mesh(circleGeo, createFlatMaterial(glassColor, 0, 0.05));
-        glass.position.z = 0.1;
-        addComponent(glass, 8);
+        if (showGlass) {
+            const glassColor = primaryColor.clone().multiplyScalar(1.2);
+            const glass = new THREE.Mesh(circleGeo, createFlatMaterial(glassColor, 0, 0.05));
+            glass.position.z = 0.1;
+            addComponent(glass, 8);
+        }
 
 
         // --- ANIMATION ---
@@ -196,9 +455,9 @@ const Clock3D = ({ isExploded = false, clockConfig = {} }) => {
             // Time Updates
             const now = new Date();
             const ms = now.getMilliseconds();
-            secondHand.rotation.z = -((now.getSeconds() + ms / 1000) / 60) * Math.PI * 2;
-            minuteHand.rotation.z = -((now.getMinutes() + now.getSeconds() / 60) / 60) * Math.PI * 2;
-            hourHand.rotation.z = -(((now.getHours() % 12) + now.getMinutes() / 60) / 12) * Math.PI * 2;
+            if (secondHand) secondHand.rotation.z = -((now.getSeconds() + ms / 1000) / 60) * Math.PI * 2;
+            if (minuteHand) minuteHand.rotation.z = -((now.getMinutes() + now.getSeconds() / 60) / 60) * Math.PI * 2;
+            if (hourHand) hourHand.rotation.z = -(((now.getHours() % 12) + now.getMinutes() / 60) / 12) * Math.PI * 2;
 
             // Physics / Reset logic
             const currentTime = Date.now();

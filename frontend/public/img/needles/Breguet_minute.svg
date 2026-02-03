@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 400">
+  <!-- Breguet / Moon hands -->
+  <!-- Main shaft -->
+  <path d="M47 0 h6 v280 h-6 Z" />
+  <!-- Ring -->
+  <path field-rule="evenodd" d="M50 280 A20 20 0 1 0 50 320 A20 20 0 1 0 50 280 Z M50 288 A12 12 0 1 1 50 312 A12 12 0 1 1 50 288 Z" />
+  <!-- Tip -->
+  <path d="M48 320 h4 v30 h-4 Z" />
+</svg>

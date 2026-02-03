@@ -16,7 +16,6 @@ function Home() {
                 subtitle="Collection Exclusive"
                 description="Découvrez notre collection exclusive d'horloges"
                 image={bgVtimes}
-                video={bgVtimes2}
                 loop={true}
                 buttonText="Voir les produits"
                 buttonLink="/products"

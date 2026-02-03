@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- "12" at top -->
+  <g transform="translate(50, 15) scale(0.1)">
+      <!-- 1 -->
+      <path d="M-5 -20 L5 -20 L5 20 L-5 20 Z" />
+      <!-- 2 -->
+      <path d="M15 -20 L35 -20 L35 0 L15 0 L15 10 L35 10 L35 20 L15 20 L15 -10 L25 -10 L25 -20 L15 -20 Z" />
+  </g>
+  <!-- simplified paths for numbers, actually for simplicity I'll make dots/sticks to prove geometry -->
+  <!-- Users can upload better SVGs, but I must prove technology works -->
+  
+  <!-- Let's do simple sticks for 12, 3, 6, 9 -->
+  
+  <!-- 12 (II) -->
+  <path d="M48 5 L50 5 L50 20 L48 20 Z" />
+  <path d="M52 5 L54 5 L54 20 L52 20 Z" />
+  
+  <!-- 6 (I) -->
+  <path d="M50 80 L52 80 L52 95 L50 95 Z" />
+  
+  <!-- 3 (-) -->
+  <path d="M80 50 L95 50 L95 52 L80 52 Z" />
+  
+  <!-- 9 (-) -->
+  <path d="M5 50 L20 50 L20 52 L5 52 Z" />
+</svg>
