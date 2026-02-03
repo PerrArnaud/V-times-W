@@ -8,9 +8,7 @@
     max-width: 400px;
 
     /* Glassmorphism Effect */
-    background: var(--color-white-10);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    background: var(--color-background);
 
     border: 1px solid var(--color-white-20);
     border-radius: 50px;

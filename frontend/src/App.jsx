@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import Products from './pages/products'
 import Canva from './pages/canva'
 import Bottombar from './components/bottombar'
+import Footer from './components/Footer'
 import About from './pages/About'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css'
@@ -19,6 +20,7 @@ function App() {
                 <Route path="/about" element={<About />} />
             </Routes>
             <Bottombar />
+            <Footer />
         </Router>
     )
 }
