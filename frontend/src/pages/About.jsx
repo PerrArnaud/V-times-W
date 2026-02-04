@@ -1,7 +1,7 @@
 import MiniCard from "../components/MiniCard"
 import Card from "../components/cards"
 import bgVtimes from '../img/bg-vtimes.png';
-import LogoPWhite from '../img/logo-p-white.svg';
+import LogoPWhite from '../img/Logo-P-White.svg';
 import LogoPBlack from '../img/logo-p-black.svg';
 import videoVTimesMp4 from '../img/Vidéo_pres_VTimes.mp4';
 import Section from '../components/Section';
@@ -44,9 +44,6 @@ function About() {
             size='L'
             title="Vidéo de Présentation"> 
             <div className="about-video-row">
-                    <p className="about-video-text">
-                        Lien vers le compte Instagram de V-Times
-                        <br />
                         <a
                             href="https://www.instagram.com/vtime.s/"
                             target="_blank"
@@ -55,7 +52,6 @@ function About() {
                         >
                             Suivre sur Instagram
                         </a>
-                    </p>
                 <div className="about-video-player">
                     <video controls>
                         <source src={videoVTimesMp4} type="video/mp4" />
