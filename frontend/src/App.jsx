@@ -7,6 +7,7 @@ import Bottombar from './components/bottombar'
 import Footer from './components/Footer'
 import About from './pages/About'
 import Contact from './pages/contact'
+import Presales from './pages/presales'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css'
 
@@ -20,6 +21,7 @@ function App() {
                 <Route path="/canva" element={<Canva />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/presales" element={<Presales />} />
             </Routes>
             <Bottombar />
             <Footer />
