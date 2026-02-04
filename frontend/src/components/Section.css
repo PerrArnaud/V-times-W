@@ -254,7 +254,41 @@
     margin-top: 1rem;
     margin-bottom: 1rem;
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
     z-index: 1;
+}
+
+@media (max-width: 768px) {
+    .section {
+        padding: 1.5rem 1rem;
+    }
+
+    .section-l {
+        min-height: 40vh;
+    }
+
+    .section-l .section-title,
+    .section-m-alt .section-title,
+    .section-m .section-title {
+        font-size: 1.8rem;
+        letter-spacing: 0.1em;
+    }
+
+    .section-l .section-description,
+    .section-m-alt .section-description,
+    .section-description {
+        font-size: 1rem;
+    }
+
+    .section-button {
+        padding: 0.85rem 1.5rem;
+        font-size: 0.95rem;
+    }
+
+    .section-children {
+        gap: 1.25rem;
+    }
 }
 
 /* Tablette et Mobile: Transformation en carrousel */
@@ -277,11 +311,14 @@
         padding-right: 2rem;
         /* Espace fin */
 
-        /* Utilisation de toute la largeur de l'écran ou du parent */
-        width: 100vw;
-        margin-left: -2rem;
-        /* Compensation du padding parent .section */
-        margin-right: -2rem;
+        /* Utilisation de la largeur du parent pour éviter le débordement */
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
 
         /* Cacher la scrollbar (optionnel mais plus propre sur mobile) */
         scrollbar-width: none;
@@ -301,5 +338,12 @@
         /* Ne pas réduire ou grandir */
         scroll-snap-align: center;
         /* Centrer l'élément au scroll */
+    }
+}
+
+@media (max-width: 600px) {
+    .section-children {
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 }

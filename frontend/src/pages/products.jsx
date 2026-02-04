@@ -30,6 +30,11 @@ function Products() {
                 title="Personnalisez votre horloge !"
                 size="L"
             />
+
+        <Section // Soulignage à enlever sous cette section
+                title="Nos produits vous intéressent ?"
+                size="L"
+            />
         </div>
     )
 }

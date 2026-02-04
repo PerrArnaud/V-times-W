@@ -117,8 +117,9 @@
     }
 
     .footer-bottom-inner {
-        flex-direction: column;
         align-items: center;
+        flex-direction: column;
+        padding: 0 1rem;
     }
 
     .footer-info {
@@ -137,7 +138,25 @@
 }
 
 @media (max-width: 600px) {
-    .footer-top-inner {
-        grid-template-columns: 1fr;
+    .footer-brand {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .footer-logo-wrap {
+        height: auto;
+        align-items: center;
+    }
+
+    .footer-logo {
+        height: 80px;
+        transform: none;
+    }
+
+    .footer-brand-text {
+        position: static;
+        transform: none;
+        margin-top: 0.5rem;
+        text-align: center;
     }
 }

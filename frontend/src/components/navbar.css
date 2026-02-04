@@ -108,3 +108,14 @@
         /* Center logo */
     }
 }
+
+@media (max-width: 600px) {
+    .nav-container {
+        height: 64px;
+        padding: 0 1.25rem;
+    }
+
+    .logo-canvas {
+        width: 200px;
+    }
+}

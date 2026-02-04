@@ -5,6 +5,7 @@ import './bottombar.css';
 const Bottombar = () => {
     const location = useLocation();
     const [activeIndex, setActiveIndex] = useState(0);
+    const [bottomOffset, setBottomOffset] = useState(24);
 
     useEffect(() => {
         switch (location.pathname) {
@@ -16,12 +17,50 @@ const Bottombar = () => {
         }
     }, [location.pathname]);
 
+    useEffect(() => {
+        const footer = document.querySelector('.site-footer');
+        if (!footer) {
+            setBottomOffset(24);
+            return;
+        }
+
+        const baseOffset = 24;
+        let ticking = false;
+
+        const updateOffset = () => {
+            const footerRect = footer.getBoundingClientRect();
+            const viewportHeight = window.innerHeight;
+            const overlap = Math.max(0, viewportHeight - footerRect.top);
+            setBottomOffset(baseOffset + overlap);
+        };
+
+        const onScroll = () => {
+            if (ticking) {
+                return;
+            }
+            ticking = true;
+            window.requestAnimationFrame(() => {
+                updateOffset();
+                ticking = false;
+            });
+        };
+
+        updateOffset();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
+
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onScroll);
+        };
+    }, []);
+
     const isActive = (path) => {
         return location.pathname === path ? 'active' : '';
     };
 
     return (
-        <nav className="bottom-bar">
+        <nav className="bottom-bar" style={{ bottom: `${bottomOffset}px` }}>
             {/* The Blob */}
             <div
                 className="nav-blob"
