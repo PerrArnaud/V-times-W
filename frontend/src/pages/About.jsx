@@ -1,8 +1,6 @@
-import MiniCard from "../components/MiniCard"
 import Card from "../components/cards"
 import bgVtimes from '../img/bg-vtimes.png';
 import LogoPWhite from '../img/Logo-P-White.svg';
-import LogoPBlack from '../img/logo-p-black.svg';
 import videoVTimesMp4 from '../img/Vidéo_pres_VTimes.mp4';
 import Section from '../components/Section';
 import './About.css';
