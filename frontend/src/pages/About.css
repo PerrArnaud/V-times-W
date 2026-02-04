@@ -3,15 +3,21 @@
     align-items: center;
     justify-content: center;
     gap: 2rem;
-    flex-wrap: wrap;
+    flex-direction: column;
+    flex-wrap: nowrap;
     width: 100%;
 }
 
 .about-video-text {
-    max-width: 420px;
+    max-width: 520px;
     line-height: 1.6;
-    text-align: left;
+    text-align: center;
     margin: 0;
+}
+
+.about-video-text .section-button {
+    display: inline-block;
+    margin-top: 1rem;
 }
 
 .about-video-player {
@@ -24,4 +30,11 @@
     height: auto;
     display: block;
     border-radius: 30px;
+}
+
+@media (max-width: 768px) {
+    .about-video-row {
+        align-items: center;
+        text-align: center;
+    }
 }

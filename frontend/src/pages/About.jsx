@@ -44,9 +44,18 @@ function About() {
             size='L'
             title="Vidéo de Présentation"> 
             <div className="about-video-row">
-                <p className="about-video-text">
-                Lasciviam incondita sunt errores vieturo ac alia magnificus nati laeditur hic ut hic licentia perfecta indulta ut sunt sed errores sunt incondita ubi ante reputantium enim lasciviam licentia ante patriam ubi levitate coetuum perfecta errores patriam ante splendor alia gloriosam coetuum enim convenit paucorum levitate paucorum lasciviam convenit reputantium ac.
-                </p>
+                    <p className="about-video-text">
+                        Lien vers le compte Instagram de V-Times
+                        <br />
+                        <a
+                            href="https://www.instagram.com/vtime.s/"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="section-button"
+                        >
+                            Suivre sur Instagram
+                        </a>
+                    </p>
                 <div className="about-video-player">
                     <video controls>
                         <source src={videoVTimesMp4} type="video/mp4" />
