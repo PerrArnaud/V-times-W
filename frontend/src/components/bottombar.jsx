@@ -1,6 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
-import { createPortal } from 'react-dom';
 import './bottombar.css';
 
 const Bottombar = () => {
@@ -8,9 +7,8 @@ const Bottombar = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const baseOffset = 24;
     const [raiseOffset, setRaiseOffset] = useState(0);
-    const [isDocked, setIsDocked] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
     const rafIdRef = useRef(null);
-    const dockedRef = useRef(false);
     const navRef = useRef(null);
 
     useEffect(() => {
@@ -39,29 +37,23 @@ const Bottombar = () => {
             }
 
             if (mediaQuery.matches) {
+                setIsMobile(true);
                 footer.style.setProperty('--bottom-bar-height', `${liftAmount}px`);
+
                 const footerRect = footer.getBoundingClientRect();
                 const viewportHeight = window.innerHeight;
-                const dockThreshold = viewportHeight - 4;
-                const undockThreshold = viewportHeight + 8;
+                const overlap = Math.max(0, (viewportHeight - liftAmount) - footerRect.top);
+                const progress = Math.min(overlap, liftAmount);
 
-                let shouldLift = dockedRef.current;
-                if (!dockedRef.current && footerRect.bottom <= dockThreshold) {
-                    shouldLift = true;
-                } else if (dockedRef.current && footerRect.bottom > undockThreshold) {
-                    shouldLift = false;
-                }
-
-                dockedRef.current = shouldLift;
-                footer.classList.toggle('footer-lift', shouldLift);
-                setIsDocked(shouldLift);
+                footer.style.setProperty('--bottom-bar-progress', `${progress}px`);
+                footer.classList.toggle('footer-lift', progress > 0);
                 setRaiseOffset(prev => (prev !== 0 ? 0 : prev));
                 return;
             }
 
+            setIsMobile(false);
+
             footer.classList.remove('footer-lift');
-            dockedRef.current = false;
-            setIsDocked(false);
             const footerRect = footer.getBoundingClientRect();
             const viewportHeight = window.innerHeight;
             const overlap = Math.max(0, (viewportHeight - baseOffset) - footerRect.top);
@@ -88,8 +80,6 @@ const Bottombar = () => {
             if (footer) {
                 footer.classList.remove('footer-lift');
             }
-            dockedRef.current = false;
-            setIsDocked(false);
             mediaQuery.removeEventListener('change', handleMediaChange);
             if (rafIdRef.current) {
                 window.cancelAnimationFrame(rafIdRef.current);
@@ -104,10 +94,12 @@ const Bottombar = () => {
     const nav = (
         <nav
             ref={navRef}
-            className={`bottom-bar ${isDocked ? 'bottom-bar-docked' : ''}`}
+            className="bottom-bar"
             style={{
-                bottom: isDocked ? '0px' : `${baseOffset}px`,
-                transform: isDocked ? 'none' : `translateX(-50%) translateY(-${raiseOffset}px)`
+                bottom: `${baseOffset}px`,
+                transform: isMobile
+                    ? 'translateX(-50%)'
+                    : `translateX(-50%) translateY(-${raiseOffset}px)`
             }}
         >
             {/* The Blob */}
@@ -138,14 +130,6 @@ const Bottombar = () => {
             </Link>
         </nav>
     );
-
-    const footerSlot = typeof document !== 'undefined'
-        ? document.getElementById('footer-bottom-bar-slot')
-        : null;
-
-    if (isDocked && footerSlot) {
-        return createPortal(nav, footerSlot);
-    }
 
     return nav;
 };

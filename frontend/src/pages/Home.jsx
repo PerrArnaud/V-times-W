@@ -28,18 +28,18 @@ function Home() {
             >
                 <Card
                     image={Pole_Production}
-                    title="Horloges"
-                    subtitle="Découvrez notre collection exclusive d'horloges"
+                    title="Pôle Production"
+                    subtitle="Notre équipe de production se charge de récupérer des vinyles abimés ou inutilisés pour les transformer en beaux objets décoratifs. Peintures, paillettes, colles, aiguilles… dites-leur ce que vous souhaitez et ils vous le créent"
                 />
                 <Card
                     image={bgVtimes}
-                    title="Horloges"
-                    subtitle="Découvrez notre collection exclusive d'horloges"
+                    title="Pôle Marketing-Communication"
+                    subtitle="Etudes de marché, enquêtes clients, création des visuels, animation des réseaux sociaux, site internet … les missions sont nombreuses et variées, mais ne font pas peur à notre équipe de choc"
                 />
                 <Card
                     image={bgVtimes}
-                    title="Horloges"
-                    subtitle="Découvrez notre collection exclusive d'horloges"
+                    title="Pôle Gestion-Finance"
+                    subtitle="Nos étudiants en BTS Comptabilité-Gestion mettent leurs talents de gestionnaires et de comptables au service de V-Time’s ! Comparaison des coûts, achats, fixation des prix de vente, fixation du seuil de rentabilité, n’ont plus de secret pour eux"
                 />
             </Section>
             <Section
