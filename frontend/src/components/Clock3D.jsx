@@ -66,9 +66,12 @@ const Clock3D = ({ isExploded = false, clockConfig = {} }) => {
         // Extract colors from config
         const primaryColor = hexToThreeColor(getColorHex(clockConfig['Couleur Primaire']));
         const secondaryColor = hexToThreeColor(getColorHex(clockConfig['Couleur Secondaire']));
-        const hourColor = hexToThreeColor(getColorHex(clockConfig['Heure']));
-        const minuteColor = hexToThreeColor(getColorHex(clockConfig['Minute']));
-        const secondColor = hexToThreeColor(getColorHex(clockConfig['Seconde']));
+        // const hourColor = hexToThreeColor(getColorHex(clockConfig['Heure']));
+        // const minuteColor = hexToThreeColor(getColorHex(clockConfig['Minute']));
+        const handsColorName = clockConfig['Heure et Minute'] || clockConfig['Heure'] || clockConfig['Minute'];
+        const hourColor = hexToThreeColor(getColorHex(handsColorName));
+        const minuteColor = hexToThreeColor(getColorHex(handsColorName));
+        // const secondColor = hexToThreeColor(getColorHex(clockConfig['Seconde']));
 
         // Adjust camera distance based on viewport size
         const getCameraDistance = (w) => {
@@ -494,22 +497,36 @@ const Clock3D = ({ isExploded = false, clockConfig = {} }) => {
 
         animate();
 
-        // Handle Window Resize
+        // Handle Resize (window + container)
         const handleResize = () => {
             if (!mountRef.current || !cameraRef.current) return;
             const w = mountRef.current.clientWidth;
             const h = mountRef.current.clientHeight;
+            if (w === 0 || h === 0) return;
             cameraRef.current.aspect = w / h;
             cameraRef.current.position.z = getCameraDistance(w);
             cameraRef.current.updateProjectionMatrix();
+            renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(w, h);
         };
+
+        handleResize();
+
+        const resizeObserver = new ResizeObserver(() => {
+            handleResize();
+        });
+
+        if (mountRef.current) {
+            resizeObserver.observe(mountRef.current);
+        }
+
         window.addEventListener('resize', handleResize);
 
         // CLEANUP
         return () => {
             cancelAnimationFrame(frameIdRef.current);
             window.removeEventListener('resize', handleResize);
+            resizeObserver.disconnect();
             if (mountRef.current && renderer.domElement) {
                 mountRef.current.removeChild(renderer.domElement);
             }

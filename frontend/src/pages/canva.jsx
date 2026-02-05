@@ -26,6 +26,9 @@ const Canva = () => {
                 }
             });
         });
+        if (Object.prototype.hasOwnProperty.call(initialConfig, 'Couleur Primaire')) {
+            initialConfig['Couleur Primaire'] = 'Sable';
+        }
         return initialConfig;
     });
 

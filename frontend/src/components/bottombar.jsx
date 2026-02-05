@@ -5,7 +5,8 @@ import './bottombar.css';
 const Bottombar = () => {
     const location = useLocation();
     const [activeIndex, setActiveIndex] = useState(0);
-    const [bottomOffset, setBottomOffset] = useState(24);
+    const baseOffset = 24;
+    const [raiseOffset, setRaiseOffset] = useState(0);
 
     useEffect(() => {
         switch (location.pathname) {
@@ -19,19 +20,15 @@ const Bottombar = () => {
 
     useEffect(() => {
         const footer = document.querySelector('.site-footer');
-        if (!footer) {
-            setBottomOffset(24);
-            return;
-        }
+        if (!footer) return;
 
-        const baseOffset = 24;
         let ticking = false;
 
-        const updateOffset = () => {
+        const updatePosition = () => {
             const footerRect = footer.getBoundingClientRect();
             const viewportHeight = window.innerHeight;
-            const overlap = Math.max(0, viewportHeight - footerRect.top);
-            setBottomOffset(baseOffset + overlap);
+            const overlap = Math.max(0, (viewportHeight - baseOffset) - footerRect.top);
+            setRaiseOffset(overlap);
         };
 
         const onScroll = () => {
@@ -40,12 +37,12 @@ const Bottombar = () => {
             }
             ticking = true;
             window.requestAnimationFrame(() => {
-                updateOffset();
+                updatePosition();
                 ticking = false;
             });
         };
 
-        updateOffset();
+        updatePosition();
         window.addEventListener('scroll', onScroll, { passive: true });
         window.addEventListener('resize', onScroll);
 
@@ -53,14 +50,20 @@ const Bottombar = () => {
             window.removeEventListener('scroll', onScroll);
             window.removeEventListener('resize', onScroll);
         };
-    }, []);
+    }, [baseOffset]);
 
     const isActive = (path) => {
         return location.pathname === path ? 'active' : '';
     };
 
     return (
-        <nav className="bottom-bar" style={{ bottom: `${bottomOffset}px` }}>
+        <nav
+            className="bottom-bar"
+            style={{
+                bottom: `${baseOffset}px`,
+                transform: `translateX(-50%) translateY(-${raiseOffset}px)`
+            }}
+        >
             {/* The Blob */}
             <div
                 className="nav-blob"
