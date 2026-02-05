@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import './bottombar.css';
 
 const Bottombar = () => {
@@ -7,48 +7,48 @@ const Bottombar = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const baseOffset = 24;
     const [raiseOffset, setRaiseOffset] = useState(0);
+    const rafIdRef = useRef(null);
 
     useEffect(() => {
         switch (location.pathname) {
             case '/': setActiveIndex(0); break;
             case '/products': setActiveIndex(1); break;
-            case '/about': setActiveIndex(2); break;
-            case '/contact': setActiveIndex(3); break;
+            case '/presales': setActiveIndex(2); break;
+            case '/about': setActiveIndex(3); break;
+            case '/contact': setActiveIndex(4); break;
             default: setActiveIndex(0);
         }
     }, [location.pathname]);
 
     useEffect(() => {
-        const footer = document.querySelector('.site-footer');
-        if (!footer) return;
-
-        let ticking = false;
+        let isMounted = true;
 
         const updatePosition = () => {
+            const footer = document.querySelector('.site-footer');
+            if (!footer) {
+                setRaiseOffset(prev => (prev !== 0 ? 0 : prev));
+                return;
+            }
+
             const footerRect = footer.getBoundingClientRect();
             const viewportHeight = window.innerHeight;
             const overlap = Math.max(0, (viewportHeight - baseOffset) - footerRect.top);
-            setRaiseOffset(overlap);
+            setRaiseOffset(prev => (prev !== overlap ? overlap : prev));
         };
 
-        const onScroll = () => {
-            if (ticking) {
-                return;
-            }
-            ticking = true;
-            window.requestAnimationFrame(() => {
-                updatePosition();
-                ticking = false;
-            });
+        const loop = () => {
+            if (!isMounted) return;
+            updatePosition();
+            rafIdRef.current = window.requestAnimationFrame(loop);
         };
 
-        updatePosition();
-        window.addEventListener('scroll', onScroll, { passive: true });
-        window.addEventListener('resize', onScroll);
+        rafIdRef.current = window.requestAnimationFrame(loop);
 
         return () => {
-            window.removeEventListener('scroll', onScroll);
-            window.removeEventListener('resize', onScroll);
+            isMounted = false;
+            if (rafIdRef.current) {
+                window.cancelAnimationFrame(rafIdRef.current);
+            }
         };
     }, [baseOffset]);
 
@@ -77,6 +77,10 @@ const Bottombar = () => {
             <Link to="/products" className={`bottom-nav-link ${isActive('/products')}`}>
                 <img src="https://cdn-icons-png.flaticon.com/512/679/679720.png" alt="Products" className="bottom-nav-icon" />
                 <span>Produits</span>
+            </Link>
+            <Link to="/presales" className={`bottom-nav-link ${isActive('/presales')}`}>
+                <img src="https://cdn-icons-png.flaticon.com/512/633/633640.png" alt="Pré-vente" className="bottom-nav-icon" />
+                <span>Pré-vente</span>
             </Link>
             <Link to="/about" className={`bottom-nav-link ${isActive('/about')}`}>
                 <img src="https://cdn-icons-png.flaticon.com/512/1152/1152912.png" alt="About" className="bottom-nav-icon" />
