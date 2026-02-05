@@ -1,3 +1,5 @@
+@import url(https://db.onlinewebfonts.com/c/bb99de1682ee75602d351c1dde11a054?family=TAN+-+PEARL);
+
 .section {
     background-color: var(--color-background);
     display: flex;
@@ -46,8 +48,8 @@
 }
 
 .section-l .section-title {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 2.5rem;
+    font-family: 'TAN - PEARL', 'Playfair Display', Georgia, serif;
+    font-size: 1.8rem;
     font-weight: 400;
     letter-spacing: 0.15em;
     text-transform: uppercase;
@@ -77,6 +79,33 @@
     background-color: var(--color-background-alt);
     align-items: center;
     margin: 0 auto;
+}
+
+.section-m .section-title {
+    font-family: 'TAN - PEARL', 'Playfair Display', Georgia, serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    margin: 0;
+    text-align: center;
+    position: relative;
+}
+
+.section-m .section-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -15px;
+    width: 100%;
+    height: 4px;
+    background-color: var(--color-primary);
+    border-radius: 2px;
+}
+
+.section-m .section-description {
+    font-size: 1.25rem;
 }
 
 /* Nouvelle section M-Alt */
@@ -212,13 +241,14 @@
 
 
 .section-m .section-title {
-    font-size: 2.25rem;
+    font-size: 1.8rem;
 }
 
 
 /* Descriptions adaptatives */
 .section-description {
     color: var(--color-text-muted);
+    margin-top: 2rem;
     margin-bottom: 2rem;
 }
 

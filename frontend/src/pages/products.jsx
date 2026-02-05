@@ -41,11 +41,6 @@ function Products() {
         }));
     };
 
-    const handleSearch = (value) => {
-        console.log("Recherche:", value);
-        // Implement search logic here
-    };
-
     // Prepare tabs for the Tabs component
     const configTabs = clockTabsData.map(tab => ({
         id: tab.id,
@@ -63,8 +58,6 @@ function Products() {
             description: "Personnalisez chaque détail de votre horloge.",
             component: (
                 <div className="clock-config-container">
-                    <Search onSearch={handleSearch} />
-
                     <div className="clock-layout-wrapper">
                         {/* Left: 3D Clock Visualization */}
                         <div className="clock-visual-wrapper">
@@ -128,10 +121,10 @@ function Products() {
     ];
 
     return (
-        <div className="home"> {/* On garde la classe home ou on en crée une products-page */}
+        <div className="products-page"> {/* On garde la classe home ou on en crée une products-page */}
             <Section
                 title="Notre Collection"
-                size="L"
+                size="M"
             >
                 <MiniCard
                     image={bgVtimes}
@@ -152,15 +145,8 @@ function Products() {
                 title="Personnalisez votre horloge !"
                 size="L"
             >
-                <div className="canva-page" style={{ minHeight: '100vh', backgroundColor: '#F9F9F9' }}>
-                    <div style={{ paddingTop: '100px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <h1>Configurateur</h1>
-                        <div style={{ marginBottom: '2rem', maxWidth: '100vw', overflow: 'hidden', padding: '0 10px' }}>
-                            <Tabs tabs={tabsData} activeTabId={activeTabId} onTabChange={setActiveTabId} />
-                        </div>
-
-                        <SectionLinkTabs tabs={tabsData} activeTabId={activeTabId} />
-                    </div>
+                <div className="clock-customization-wrapper">
+                    <SectionLinkTabs tabs={tabsData} activeTabId={activeTabId} />
                 </div>
             </Section>
         </div>

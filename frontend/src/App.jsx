@@ -8,6 +8,7 @@ import Footer from './components/Footer'
 import About from './pages/About'
 import Contact from './pages/contact'
 import Presales from './pages/presales'
+import Commitments from './pages/Commitments'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css'
 
@@ -20,6 +21,7 @@ function App() {
                 <Route path="/products" element={<Products />} />
                 <Route path="/canva" element={<Canva />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/commitments" element={<Commitments />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/presales" element={<Presales />} />
             </Routes>

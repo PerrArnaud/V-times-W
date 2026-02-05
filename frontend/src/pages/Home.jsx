@@ -12,7 +12,7 @@ function Home() {
     return (
         <div className="home">
             <Header
-                title="Bienvenue chez V-Times"
+                title="Bienvenue chez V-Time's"
                 subtitle="Collection Exclusive"
                 description="Découvrez notre collection exclusive d'horloges"
                 image={bgVtimes}
