@@ -6,6 +6,7 @@ import bgVtimes2 from '../img/bg-vtimes.mp4';
 import Card from '../components/cards';
 import IconCard from '../components/IconCard';
 import recycle from '../img/recycle.svg';
+import Pole_Production from '../img/Pole_Production.png';
 
 function Home() {
 
@@ -26,7 +27,7 @@ function Home() {
                 title="Nos services"
             >
                 <Card
-                    image={bgVtimes}
+                    image={Pole_Production}
                     title="Horloges"
                     subtitle="Découvrez notre collection exclusive d'horloges"
                 />

@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import './bottombar.css';
 
 const Bottombar = () => {
@@ -7,7 +8,10 @@ const Bottombar = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const baseOffset = 24;
     const [raiseOffset, setRaiseOffset] = useState(0);
+    const [isDocked, setIsDocked] = useState(false);
     const rafIdRef = useRef(null);
+    const dockedRef = useRef(false);
+    const navRef = useRef(null);
 
     useEffect(() => {
         switch (location.pathname) {
@@ -22,14 +26,42 @@ const Bottombar = () => {
 
     useEffect(() => {
         let isMounted = true;
+        const mediaQuery = window.matchMedia('(max-width: 1060px)');
 
         const updatePosition = () => {
             const footer = document.querySelector('.site-footer');
+            const navHeight = navRef.current?.offsetHeight || 0;
+            const liftAmount = navHeight + baseOffset;
+
             if (!footer) {
                 setRaiseOffset(prev => (prev !== 0 ? 0 : prev));
                 return;
             }
 
+            if (mediaQuery.matches) {
+                footer.style.setProperty('--bottom-bar-height', `${liftAmount}px`);
+                const footerRect = footer.getBoundingClientRect();
+                const viewportHeight = window.innerHeight;
+                const dockThreshold = viewportHeight - 4;
+                const undockThreshold = viewportHeight + 8;
+
+                let shouldLift = dockedRef.current;
+                if (!dockedRef.current && footerRect.bottom <= dockThreshold) {
+                    shouldLift = true;
+                } else if (dockedRef.current && footerRect.bottom > undockThreshold) {
+                    shouldLift = false;
+                }
+
+                dockedRef.current = shouldLift;
+                footer.classList.toggle('footer-lift', shouldLift);
+                setIsDocked(shouldLift);
+                setRaiseOffset(prev => (prev !== 0 ? 0 : prev));
+                return;
+            }
+
+            footer.classList.remove('footer-lift');
+            dockedRef.current = false;
+            setIsDocked(false);
             const footerRect = footer.getBoundingClientRect();
             const viewportHeight = window.innerHeight;
             const overlap = Math.max(0, (viewportHeight - baseOffset) - footerRect.top);
@@ -44,8 +76,21 @@ const Bottombar = () => {
 
         rafIdRef.current = window.requestAnimationFrame(loop);
 
+        const handleMediaChange = () => {
+            updatePosition();
+        };
+
+        mediaQuery.addEventListener('change', handleMediaChange);
+
         return () => {
             isMounted = false;
+            const footer = document.querySelector('.site-footer');
+            if (footer) {
+                footer.classList.remove('footer-lift');
+            }
+            dockedRef.current = false;
+            setIsDocked(false);
+            mediaQuery.removeEventListener('change', handleMediaChange);
             if (rafIdRef.current) {
                 window.cancelAnimationFrame(rafIdRef.current);
             }
@@ -56,12 +101,13 @@ const Bottombar = () => {
         return location.pathname === path ? 'active' : '';
     };
 
-    return (
+    const nav = (
         <nav
-            className="bottom-bar"
+            ref={navRef}
+            className={`bottom-bar ${isDocked ? 'bottom-bar-docked' : ''}`}
             style={{
-                bottom: `${baseOffset}px`,
-                transform: `translateX(-50%) translateY(-${raiseOffset}px)`
+                bottom: isDocked ? '0px' : `${baseOffset}px`,
+                transform: isDocked ? 'none' : `translateX(-50%) translateY(-${raiseOffset}px)`
             }}
         >
             {/* The Blob */}
@@ -92,6 +138,16 @@ const Bottombar = () => {
             </Link>
         </nav>
     );
+
+    const footerSlot = typeof document !== 'undefined'
+        ? document.getElementById('footer-bottom-bar-slot')
+        : null;
+
+    if (isDocked && footerSlot) {
+        return createPortal(nav, footerSlot);
+    }
+
+    return nav;
 };
 
 export default Bottombar;

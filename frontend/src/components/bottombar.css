@@ -19,8 +19,13 @@
     padding: 12px 0;
 
     box-shadow: 0 8px 32px 0 color-mix(in srgb, var(--color-secondary-dark) 20%, transparent);
-    z-index: 1000;
+    z-index: 3000;
     overflow: hidden;
+}
+
+.bottom-bar.bottom-bar-docked {
+    position: static;
+    margin: 0 auto;
 }
 
 /* Moving Blob Indicator Container */
