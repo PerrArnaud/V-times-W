@@ -6,6 +6,7 @@ export default defineConfig({
     plugins: [react()],
     server: {
         host: true,
+        allowedHosts: ['v-times.beaupeyrat.com'],
         watch: {
             usePolling: true,
             interval: 100,

@@ -47,9 +47,12 @@ function Home() {
                 context="products"
                 subtitle="Nos services"
                 title="Un savoir-faire unique"
-                description="Jelly cake soufflé macaroon sweet oat cake halvah. Cake danish chocolate jelly-o lollipop pastry pie I love. Sesame snaps cake candy biscuit halvah powder lemon drops.
-I love sesame snaps I love biscuit jelly-o tart caramels. Cookie cake gummies cake jelly biscuit. Pie gingerbread croissant croissant marshmallow I love caramels dessert. Topping candy canes icing I love dessert apple pie cupcake candy apple pie.
-Chupa chups tiramisu marshmallow candy canes dessert candy I love biscuit. Shortbread carrot cake I love brownie marzipan. Halvah cake jelly-o toffee caramels."
+                description="Chez VTime’s, notre savoir-faire repose sur la revalorisation de vinyles abîmés en objets décoratifs uniques et personnalisés.
+Nous transformons des disques inutilisables en créations originales telles que des décorations murales et des cadeaux sur mesure, en privilégiant une approche artisanale et responsable.
+
+Au-delà de la création, nous intégrons une dimension sociale à notre démarche en organisant des ateliers créatifs en EHPAD, permettant aux résidents de participer à la personnalisation des vinyles et de partager un moment convivial et valorisant.
+
+VTime’s associe ainsi écologie, créativité et engagement humain pour donner une seconde vie à la musique du passé."
                 image={bgVtimes}
             />
             <Section
