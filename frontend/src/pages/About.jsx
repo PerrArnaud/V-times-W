@@ -1,4 +1,3 @@
-import MiniCard from "../components/MiniCard"
 import Card from "../components/cards"
 import bgVtimes from '../img/bg-vtimes.png';
 import LogoPWhite from '../img/Logo-P-White.svg';
