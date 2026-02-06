@@ -52,7 +52,7 @@
 
     /* Couleurs de fond */
     --color-background: #e4dece;
-    --color-background-alt: #a7b2ae;
+    --color-background-alt: var(--color-white);
 
     /* Couleurs de texte */
     --color-text: var(--color-gray-900);
