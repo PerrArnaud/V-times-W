@@ -1,6 +1,8 @@
 import React from 'react';
 import './Footer.css';
 import logo from '../img/Logo-P-White.svg';
+import { Link } from 'react-router-dom';
+
 
 const footerColumns = [
     {
@@ -37,12 +39,12 @@ const Footer = () => {
                         </div>
                     </div>
                     <div className='footer-info-2'>
-                        <div className="footer-info-block">
-                            <span className="footer-info-title">Contact</span>
-                            <span className="footer-info-text">05 55 45 81 00</span>
-                        </div>
+                        <ul className="legal-footer-links">
+                            <li><Link to="/legal">Mentions légales</Link></li>
+                        </ul>
                     </div>
                 </div>
+                <div id="footer-bottom-bar-slot" className="footer-bottom-bar-slot" />
             </div>
         </footer>
     );

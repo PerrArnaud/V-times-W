@@ -11,6 +11,9 @@ import ColorSelector from '../components/ColorSelector';
 import { clockTabsData } from '../data/clockOptions';
 import bgVtimes from '../img/bg-vtimes.png';
 import './Home.css'; // On garde le CSS global pour l'app layout
+import VinyleW from '../img/vinyle-w-6977881fdb80a.jpg';
+import VinyleG from '../img/vinyle-g-69778872653d9.jpg';
+import VinyleRed from '../img/vinyle-red-6977856453885.jpg';
 
 function Products() {
     const [activeTabId, setActiveTabId] = useState('clock');
@@ -130,16 +133,16 @@ function Products() {
                 size="M"
             >
                 <MiniCard
-                    image={bgVtimes}
-                    title="Vinyle Noir"
+                    image={VinyleW}
+                    title="Vinyle Blanc"
                     onClick={() => console.log('Produit 1')}
                 />
                 <MiniCard
-                    image={bgVtimes}
+                    image={VinyleRed}
                     title="Vinyle Rouge"
                 />
                 <MiniCard
-                    image={bgVtimes}
+                    image={VinyleG}
                     title="Édition Limitée"
                 />
             </Section>

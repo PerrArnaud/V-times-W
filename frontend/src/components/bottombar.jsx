@@ -7,7 +7,9 @@ const Bottombar = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const baseOffset = 24;
     const [raiseOffset, setRaiseOffset] = useState(0);
+    const [isMobile, setIsMobile] = useState(false);
     const rafIdRef = useRef(null);
+    const navRef = useRef(null);
 
     useEffect(() => {
         switch (location.pathname) {
@@ -22,14 +24,36 @@ const Bottombar = () => {
 
     useEffect(() => {
         let isMounted = true;
+        const mediaQuery = window.matchMedia('(max-width: 1060px)');
 
         const updatePosition = () => {
             const footer = document.querySelector('.site-footer');
+            const navHeight = navRef.current?.offsetHeight || 0;
+            const liftAmount = navHeight + baseOffset;
+
             if (!footer) {
                 setRaiseOffset(prev => (prev !== 0 ? 0 : prev));
                 return;
             }
 
+            if (mediaQuery.matches) {
+                setIsMobile(true);
+                footer.style.setProperty('--bottom-bar-height', `${liftAmount}px`);
+
+                const footerRect = footer.getBoundingClientRect();
+                const viewportHeight = window.innerHeight;
+                const overlap = Math.max(0, (viewportHeight - liftAmount) - footerRect.top);
+                const progress = Math.min(overlap, liftAmount);
+
+                footer.style.setProperty('--bottom-bar-progress', `${progress}px`);
+                footer.classList.toggle('footer-lift', progress > 0);
+                setRaiseOffset(prev => (prev !== 0 ? 0 : prev));
+                return;
+            }
+
+            setIsMobile(false);
+
+            footer.classList.remove('footer-lift');
             const footerRect = footer.getBoundingClientRect();
             const viewportHeight = window.innerHeight;
             const overlap = Math.max(0, (viewportHeight - baseOffset) - footerRect.top);
@@ -44,8 +68,19 @@ const Bottombar = () => {
 
         rafIdRef.current = window.requestAnimationFrame(loop);
 
+        const handleMediaChange = () => {
+            updatePosition();
+        };
+
+        mediaQuery.addEventListener('change', handleMediaChange);
+
         return () => {
             isMounted = false;
+            const footer = document.querySelector('.site-footer');
+            if (footer) {
+                footer.classList.remove('footer-lift');
+            }
+            mediaQuery.removeEventListener('change', handleMediaChange);
             if (rafIdRef.current) {
                 window.cancelAnimationFrame(rafIdRef.current);
             }
@@ -56,12 +91,15 @@ const Bottombar = () => {
         return location.pathname === path ? 'active' : '';
     };
 
-    return (
+    const nav = (
         <nav
+            ref={navRef}
             className="bottom-bar"
             style={{
                 bottom: `${baseOffset}px`,
-                transform: `translateX(-50%) translateY(-${raiseOffset}px)`
+                transform: isMobile
+                    ? 'translateX(-50%)'
+                    : `translateX(-50%) translateY(-${raiseOffset}px)`
             }}
         >
             {/* The Blob */}
@@ -92,6 +130,8 @@ const Bottombar = () => {
             </Link>
         </nav>
     );
+
+    return nav;
 };
 
 export default Bottombar;
