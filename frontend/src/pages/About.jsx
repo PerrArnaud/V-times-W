@@ -39,7 +39,7 @@ function About() {
         </Section>
 
         <Section
-            size='L'
+            size='M'
             title="Vidéo de Présentation"> 
             <div className="about-video-row">
                         <a
