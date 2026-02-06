@@ -20,7 +20,7 @@ function Presales() {
         <div className="presales-page">
             <div className="presales-container">
                 <div className="presales-card">
-                    <h1 className="presales-title">Formulaire de pré-commande</h1>
+                    <h1 className="presales-title">Formulaire de pré-vente</h1>
 
                     {status && (
                         <div className="presales-alert" role="status">
@@ -99,7 +99,7 @@ function Presales() {
                         </div>
 
                         <button type="submit" className="section-button">
-                            Valider la pré-commande
+                            Valider la pré-vente
                         </button>
                     </form>
                 </div>
