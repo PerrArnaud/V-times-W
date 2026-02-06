@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  app:
+    image: ghcr.io/dunglas/frankenphp:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - app_data:/app
+    environment:
+      - GITHUB_REPO=${GITHUB_REPO:-https://github.com/votre-username/votre-repo.git}
+      - GITHUB_BRANCH=${GITHUB_BRANCH:-main}
+      - APP_ENV=prod
+      - DATABASE_URL=${DATABASE_URL}
+    command: >
+      sh -c "
+        if [ ! -d /app/.git ]; then
+          git clone --depth 1 --branch $${GITHUB_BRANCH} $${GITHUB_REPO} /app
+        fi &&
+        cd /app &&
+        git pull origin $${GITHUB_BRANCH} &&
+        composer install --no-dev --optimize-autoloader --no-interaction &&
+        php bin/console cache:clear &&
+        php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration &&
+        frankenphp run --config /etc/caddy/Caddyfile
+      "
+    networks:
+      - v-times-w_default  # Réseau de votre stack existante
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  app_data:
+
+networks:
+  v-times-w_default:
+    external: true  # Utilise le réseau existant
