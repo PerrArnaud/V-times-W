@@ -4,7 +4,7 @@
     --color-black: #000000;
 
     /* Couleurs principales */
-    --color-primary: #335348;
+    --color-primary: #455e54;
     --color-primary-hover: color-mix(in srgb, var(--color-primary), var(--color-black) 15%);
     --color-primary-light: color-mix(in srgb, var(--color-primary), var(--color-white) 30%);
     --color-primary-dark: color-mix(in srgb, var(--color-primary), var(--color-black) 30%);
