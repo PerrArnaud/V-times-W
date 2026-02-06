@@ -19,13 +19,15 @@
 }
 
 .presales-title {
-    font-family: 'Playfair Display', Georgia, serif;
-    text-align: center;
-    margin: 0 0 2rem;
-    color: var(--color-text);
-    font-size: 2rem;
-    letter-spacing: 0.08em;
+    font-family: 'TAN - PEARL','Playfair Display', Georgia, serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
+    color: var(--color-text);
+    margin: 0 0 2rem 0;
+    text-align: center;
+    position: relative;
 }
 
 .presales-alert {
@@ -42,6 +44,11 @@
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
+}
+
+.presales-form .section-button {
+    align-self: center;
+    width: fit-content;
 }
 
 .presales-grid {
@@ -92,24 +99,7 @@
     margin: 0;
 }
 
-.presales-submit {
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 50px;
-    background: var(--color-primary);
-    color: var(--color-white);
-    font-weight: 600;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.2s ease;
-}
 
-.presales-submit:hover {
-    background: var(--color-primary-hover);
-    transform: translateY(-2px);
-}
 
 @media (max-width: 768px) {
     .presales-page {

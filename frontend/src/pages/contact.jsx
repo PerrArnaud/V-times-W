@@ -55,7 +55,7 @@ function Contact() {
                             />
                         </div>
 
-                        <button type="submit" >
+                        <button type="submit" className="section-button">
                             Envoyer
                         </button>
                     </form>

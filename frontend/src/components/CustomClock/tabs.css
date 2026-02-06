@@ -48,9 +48,9 @@
     font-weight: 500;
 }
 
-button {
-    background-color: transparent !important;
-    color: #000000 !important;
+.tabs-container button {
+    background-color: transparent;
+    color: #000000;
 }
 
 /* Carousel Mode */
