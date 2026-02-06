@@ -98,7 +98,7 @@ function Presales() {
                             />
                         </div>
 
-                        <button type="submit" className="presales-submit">
+                        <button type="submit" className="section-button">
                             Valider la pré-commande
                         </button>
                     </form>

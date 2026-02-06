@@ -2,6 +2,15 @@
     width: 100%;
 }
 
+.products-page button {
+    background-color: transparent !important;
+    color: #000000 !important;
+}
+
+.products-page button:hover {
+    background-color: transparent !important;
+}
+
 .clock-config-container {
     margin-top: 30px;
     width: 100%;
