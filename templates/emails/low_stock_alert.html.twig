@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Alerte Stock Faible</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #dc3545;
+        }
+        .logo {
+            max-width: 150px;
+        }
+        .content {
+            padding: 30px 0;
+        }
+        .alert-box {
+            background-color: #f8d7da;
+            border: 2px solid #dc3545;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .product-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .warning-icon {
+            font-size: 48px;
+            color: #dc3545;
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        {% if logo is defined %}
+            <img src="cid:logo" alt="V-Times" class="logo">
+        {% else %}
+            <h1>V-Times</h1>
+        {% endif %}
+    </div>
+
+    <div class="content">
+        <div class="warning-icon">⚠️</div>
+        
+        <h2 style="color: #dc3545; text-align: center;">Alerte Stock Faible</h2>
+
+        <div class="alert-box">
+            <h3>Attention : Stock critique détecté</h3>
+            <p>Le stock d'un produit est devenu critique et nécessite votre attention.</p>
+        </div>
+
+        <div class="product-info">
+            <h3>Informations du produit :</h3>
+            <p><strong>Nom du produit :</strong> {{ productName }}</p>
+            <p><strong>Quantité restante :</strong> <span style="color: #dc3545; font-weight: bold;">{{ quantity }} unité(s)</span></p>
+            <p><strong>Date de l'alerte :</strong> {{ "now"|date('d/m/Y à H:i') }}</p>
+        </div>
+
+        <div style="background-color: #fff3cd; padding: 15px; border-radius: 5px; margin: 20px 0;">
+            <p><strong>Action recommandée :</strong></p>
+            <ul>
+                <li>Vérifier les pré-commandes en attente</li>
+                <li>Commander du stock supplémentaire</li>
+                <li>Mettre à jour le stock si nécessaire</li>
+            </ul>
+        </div>
+
+        <p style="text-align: center;">
+            <a href="{{ url('app_stock_index') }}" 
+               style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">
+                Gérer le stock
+            </a>
+        </p>
+    </div>
+
+    <div class="footer">
+        <p>&copy; {{ "now"|date("Y") }} V-Times. Tous droits réservés.</p>
+        <p>Alerte automatique du système de gestion de stock</p>
+    </div>
+</body>
+</html>

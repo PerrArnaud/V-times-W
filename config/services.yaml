@@ -19,5 +19,15 @@ services:
     App\:
         resource: '../src/'
 
+    # Configuration des services personnalisés
+    App\Service\StockManager:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
+    App\Service\EmailNotifier:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+            $adminEmail: '%env(default::ADMIN_EMAIL)%'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

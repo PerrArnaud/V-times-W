@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Annulation de votre pré-commande</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #007bff;
+        }
+        .logo {
+            max-width: 150px;
+        }
+        .content {
+            padding: 30px 0;
+        }
+        .order-details {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .alert {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        {% if logo is defined %}
+            <img src="cid:logo" alt="V-Times" class="logo">
+        {% else %}
+            <h1>V-Times</h1>
+        {% endif %}
+    </div>
+
+    <div class="content">
+        <h2>Annulation de votre pré-commande</h2>
+
+        <p>Bonjour {{ preOrder.prenom }} {{ preOrder.nom }},</p>
+
+        <p>Nous vous informons que votre pré-commande a été annulée.</p>
+
+        <div class="order-details">
+            <h3>Détails de la commande annulée :</h3>
+            <p><strong>Référence :</strong> #{{ preOrder.id }}</p>
+            <p><strong>Produit :</strong> {{ preOrder.produit.name }}</p>
+            <p><strong>Quantité :</strong> {{ preOrder.quantiteCommandee }}</p>
+            <p><strong>Date de création :</strong> {{ preOrder.dateCreation|date('d/m/Y à H:i') }}</p>
+        </div>
+
+        <div class="alert">
+            <p><strong>Note :</strong> Le stock a été restauré et le produit est à nouveau disponible.</p>
+        </div>
+
+        <p>Si vous avez des questions concernant cette annulation, n'hésitez pas à nous contacter.</p>
+
+        <p>Cordialement,<br>L'équipe V-Times</p>
+    </div>
+
+    <div class="footer">
+        <p>&copy; {{ "now"|date("Y") }} V-Times. Tous droits réservés.</p>
+        <p>Cet email a été envoyé à {{ preOrder.email }}</p>
+    </div>
+</body>
+</html>
