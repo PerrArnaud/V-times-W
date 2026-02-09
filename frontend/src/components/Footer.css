@@ -156,7 +156,16 @@
 }
 
 .site-footer.footer-lift .footer-bottom-bar-slot {
-    height: calc(var(--bottom-bar-progress, 0px) + env(safe-area-inset-bottom, 0px));
+    height: max(
+        calc(var(--bottom-bar-progress, 0px) + env(safe-area-inset-bottom, 0px)),
+        calc(var(--bottom-bar-height, 0px) + env(safe-area-inset-bottom, 0px))
+    );
+}
+
+@media (max-width: 1060px) {
+    .footer-bottom-bar-slot {
+        height: calc(var(--bottom-bar-height, 0px) + env(safe-area-inset-bottom, 0px));
+    }
 }
 
 @media (max-width: 600px) {

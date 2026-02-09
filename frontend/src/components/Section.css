@@ -371,6 +371,21 @@
     }
 }
 
+@media (max-width: 1024px) {
+    .commitments-page .section-children {
+        flex-wrap: wrap;
+        overflow-x: visible;
+        scroll-snap-type: none;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .commitments-page .section-children > * {
+        flex: 1 1 100%;
+        scroll-snap-align: none;
+    }
+}
+
 @media (max-width: 600px) {
     .section-children {
         padding-left: 1rem;

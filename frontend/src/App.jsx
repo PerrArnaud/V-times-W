@@ -50,19 +50,23 @@ function App() {
     return (
         <Router>
             <ScrollToTop />
-            <Navbar />
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/canva" element={<Canva />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/commitments" element={<Commitments />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/presales" element={<Presales />} />
-                <Route path="/legal" element={<Legal />} />
-            </Routes>
-            <Bottombar />
-            <Footer />
+            <div className="app-shell">
+                <Navbar />
+                <div className="app-main">
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/products" element={<Products />} />
+                        <Route path="/canva" element={<Canva />} />
+                        <Route path="/about" element={<About />} />
+                        <Route path="/commitments" element={<Commitments />} />
+                        <Route path="/contact" element={<Contact />} />
+                        <Route path="/presales" element={<Presales />} />
+                        <Route path="/legal" element={<Legal />} />
+                    </Routes>
+                </div>
+                <Bottombar />
+                <Footer />
+            </div>
         </Router>
     )
 }

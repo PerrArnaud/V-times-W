@@ -16,8 +16,9 @@ const Bottombar = () => {
             case '/': setActiveIndex(0); break;
             case '/products': setActiveIndex(1); break;
             case '/presales': setActiveIndex(2); break;
-            case '/about': setActiveIndex(3); break;
-            case '/contact': setActiveIndex(4); break;
+            case '/commitments': setActiveIndex(3); break;
+            case '/about': setActiveIndex(4); break;
+            case '/contact': setActiveIndex(5); break;
             default: setActiveIndex(0);
         }
     }, [location.pathname]);
@@ -119,6 +120,10 @@ const Bottombar = () => {
             <Link to="/presales" className={`bottom-nav-link ${isActive('/presales')}`}>
                 <img src="https://cdn-icons-png.flaticon.com/512/633/633640.png" alt="Pré-vente" className="bottom-nav-icon" />
                 <span>Pré-vente</span>
+            </Link>
+            <Link to="/commitments" className={`bottom-nav-link ${isActive('/commitments')}`}>
+                <img src="https://cdn-icons-png.flaticon.com/512/3514/3514491.png" alt="Engagements" className="bottom-nav-icon" />
+                <span>Engagements</span>
             </Link>
             <Link to="/about" className={`bottom-nav-link ${isActive('/about')}`}>
                 <img src="https://cdn-icons-png.flaticon.com/512/1152/1152912.png" alt="About" className="bottom-nav-icon" />
