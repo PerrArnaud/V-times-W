@@ -2,11 +2,14 @@ import Header from '../components/Header';
 import Section from '../components/Section';
 import './Home.css'
 import bgVtimes from '../img/bg-vtimes.png';
-import bgVtimes2 from '../img/bg-vtimes.mp4';
+import bgVtimesVideo from '../img/bg-vtimes.mp4';
+import photoGroupe from '../img/photo-groupe.jpeg';
 import Card from '../components/cards';
 import IconCard from '../components/IconCard';
 import recycle from '../img/recycle.svg';
-import Pole_Production from '../img/Pole_Production.png';
+import Pole_Production from '../img/Pole_Production2.jpeg';
+import Pole_Coordination from '../img/Pole_Coordination.jpeg';
+import Pole_Communication from '../img/Pole_Communication.jpeg';
 
 function Home() {
 
@@ -17,6 +20,9 @@ function Home() {
                 subtitle="Collection Exclusive"
                 description="Découvrez notre collection exclusive d'horloges"
                 image={bgVtimes}
+                video={bgVtimesVideo}
+                sliderImage={photoGroupe}
+                slideInterval={4000}
                 loop={true}
                 buttonText="Voir les produits"
                 buttonLink="/products"
@@ -32,12 +38,12 @@ function Home() {
                     subtitle="Notre équipe de production se charge de récupérer des vinyles abimés ou inutilisés pour les transformer en beaux objets décoratifs. Peintures, paillettes, colles, aiguilles… dites-leur ce que vous souhaitez et ils vous le créent"
                 />
                 <Card
-                    image={bgVtimes}
+                    image={Pole_Communication}
                     title="Pôle Marketing-Communication"
                     subtitle="Etudes de marché, enquêtes clients, création des visuels, animation des réseaux sociaux, site internet … les missions sont nombreuses et variées, mais ne font pas peur à notre équipe de choc"
                 />
                 <Card
-                    image={bgVtimes}
+                    image={Pole_Coordination}
                     title="Pôle Gestion-Finance"
                     subtitle="Nos étudiants en BTS Comptabilité-Gestion mettent leurs talents de gestionnaires et de comptables au service de V-Time’s ! Comparaison des coûts, achats, fixation des prix de vente, fixation du seuil de rentabilité, n’ont plus de secret pour eux"
                 />
@@ -47,12 +53,9 @@ function Home() {
                 context="products"
                 subtitle="Nos services"
                 title="Un savoir-faire unique"
-                description="Chez VTime’s, notre savoir-faire repose sur la revalorisation de vinyles abîmés en objets décoratifs uniques et personnalisés.
+                description="Chez V-Time’s, notre savoir-faire repose sur la revalorisation de vinyles abîmés en objets décoratifs uniques et personnalisés.
 Nous transformons des disques inutilisables en créations originales telles que des décorations murales et des cadeaux sur mesure, en privilégiant une approche artisanale et responsable.
-
-Au-delà de la création, nous intégrons une dimension sociale à notre démarche en organisant des ateliers créatifs en EHPAD, permettant aux résidents de participer à la personnalisation des vinyles et de partager un moment convivial et valorisant.
-
-VTime’s associe ainsi écologie, créativité et engagement humain pour donner une seconde vie à la musique du passé."
+V-Time’s associe ainsi écologie et créativité pour donner une seconde vie à la musique du passé."
                 image={bgVtimes}
             />
             <Section

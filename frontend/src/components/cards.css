@@ -12,6 +12,22 @@
     transition: box-shadow 0.3s ease;
 }
 
+.card-container.card-bg-black {
+    background-color: #000;
+}
+
+.card-container.card-bg-black .card-image {
+    object-fit: contain;
+    object-position: center;
+    background-color: #1e1e1e;
+    transform: scale(1.9);
+    transform-origin: center;
+}
+
+.card-container.card-bg-black:hover .card-image {
+    transform: scale(2.2);
+}
+
 .card-container:hover {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }

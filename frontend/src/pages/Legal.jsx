@@ -9,8 +9,8 @@ const Legal = () => {
                 <div className="legal-grid">
                     <section className="legal-card">
                         <h2>Éditeur</h2>
-                        <p><strong>V-TIMES</strong></p>
-                        <p>9 T Rue Pétinaud‑Beaupuyrat</p>
+                        <p><strong>V-Time's</strong></p>
+                        <p>9 T Rue Pétinaud‑Beaupeyrat</p>
                         <p>87000 Limoges</p>
                         <p>Téléphone : +33 (0)5 55 45 81 00</p>
                         <p>
@@ -35,7 +35,7 @@ const Legal = () => {
                     <section className="legal-card">
                         <h2>Hébergeur</h2>
                         <p><strong>CAMPUS BEAUPEYRAT</strong></p>
-                        <p>9 T Rue Pétinaud‑Beaupuyrat</p>
+                        <p>9 T Rue Pétinaud‑Beaupeyrat</p>
                         <p>87000 Limoges</p>
                         <p>Téléphone : +33 (0)5 55 45 81 00</p>
                         <p>
@@ -50,14 +50,14 @@ const Legal = () => {
                 <section className="legal-section">
                     <h2>Propriété intellectuelle</h2>
                     <p>
-                        V‑Times est propriétaire des droits de propriété intellectuelle et détient les droits
+                        V‑Time's est propriétaire des droits de propriété intellectuelle et détient les droits
                         d’usage sur tous les éléments accessibles sur le site internet, notamment les textes,
                         images, graphismes, logos et vidéos.
                     </p>
                     <p>
                         Toute reproduction, représentation, modification, publication, adaptation de tout ou
                         partie des éléments du site, quel que soit le moyen ou le procédé utilisé, est interdite,
-                        sauf autorisation écrite préalable de V‑Times.
+                        sauf autorisation écrite préalable de V‑Time's.
                     </p>
                     <p>
                         Toute exploitation non autorisée du site ou de l’un quelconque des éléments qu’il
@@ -70,15 +70,15 @@ const Legal = () => {
                 <section className="legal-section">
                     <h2>Limitations de responsabilité</h2>
                     <p>
-                        V‑Times ne pourra être tenu pour responsable des dommages directs et indirects causés
+                        V‑Time's ne pourra être tenu pour responsable des dommages directs et indirects causés
                         au matériel de l’utilisateur, lors de l’accès au site www.campus.beaupeyrat.fr.
                     </p>
                     <p>
-                        V‑Times décline toute responsabilité quant à l’utilisation qui pourrait être faite des
+                        V‑Time's décline toute responsabilité quant à l’utilisation qui pourrait être faite des
                         informations et contenus présents sur www.campus.beaupeyrat.fr.
                     </p>
                     <p>
-                        V‑Times s’engage à sécuriser au mieux le site www.campus.beaupeyrat.fr, cependant sa
+                        V‑Time's s’engage à sécuriser au mieux le site www.campus.beaupeyrat.fr, cependant sa
                         responsabilité ne pourra être mise en cause si des données indésirables sont importées
                         et installées sur son site à son insu.
                     </p>

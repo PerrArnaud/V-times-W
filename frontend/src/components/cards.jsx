@@ -7,10 +7,11 @@ import './cards.css';
  * @param {string} image - URL de l'image de fond
  * @param {string} title - Titre principal (Serif)
  * @param {string} subtitle - Sous-titre ou catégorie (Sans-serif)
+ * @param {string} className - Classe CSS additionnelle
  */
-const Card = ({ image, title, subtitle }) => {
+const Card = ({ image, title, subtitle, className = '' }) => {
     return (
-        <div className="card-container">
+        <div className={`card-container ${className}`.trim()}>
             <img src={image} alt={title} className="card-image" />
             <div className="card-overlay">
                 <h3 className="card-title">{title}</h3>
