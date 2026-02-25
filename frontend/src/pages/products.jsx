@@ -11,9 +11,9 @@ import ColorSelector from '../components/ColorSelector';
 import { clockTabsData } from '../data/clockOptions';
 import bgVtimes from '../img/bg-vtimes.png';
 import './Home.css'; // On garde le CSS global pour l'app layout
-import VinyleW from '../img/vinyle-w-6977881fdb80a.jpg';
-import VinyleG from '../img/vinyle-g-69778872653d9.jpg';
-import VinyleRed from '../img/vinyle-red-6977856453885.jpg';
+import VinyleBlanc from '../img/vinyle-blanc.jpeg';
+import VinyleBleu from '../img/vinyle-bleu.jpeg';
+import VinyleDoré from '../img/vinyle-doré.jpeg';
 
 function Products() {
     const [activeTabId, setActiveTabId] = useState('clock');
@@ -133,17 +133,20 @@ function Products() {
                 size="M"
             >
                 <MiniCard
-                    image={VinyleW}
-                    title="Vinyle Blanc"
+                    image={VinyleBlanc}
+                    title="Gamme Essentielle"
+                    subtitle="A partir de 20€"
                     onClick={() => console.log('Produit 1')}
                 />
                 <MiniCard
-                    image={VinyleRed}
-                    title="Vinyle Rouge"
+                    image={VinyleBleu}
+                    subtitle="A partir de 30€"
+                    title="Gamme Limitée"
                 />
                 <MiniCard
-                    image={VinyleG}
-                    title="Édition Limitée"
+                    image={VinyleDoré}
+                    title="Gamme Personnalisée"
+                    subtitle="A partir de 35€"
                 />
             </Section>
 

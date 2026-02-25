@@ -16,7 +16,7 @@ const Navbar = () => {
 
                 <Link to="/" className="brand">
                     <div className="logo-canvas">
-                        <img src={LogoPBlack} alt="V-Times" className="logo-img" />
+                        <img src={LogoPBlack} alt="V-Time's" className="logo-img" />
                     </div>
                 </Link>
 

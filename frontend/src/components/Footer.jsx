@@ -27,15 +27,15 @@ const Footer = () => {
                 <div className="footer-bottom-inner">
                     <div className="footer-brand">
                         <div className="footer-logo-wrap">
-                            <img src={logo} alt="V-Times" className="footer-logo" />
+                            <img src={logo} alt="V-Time's" className="footer-logo" />
                         </div>
-                        <span className="footer-brand-text">Made by Campus Beaupuyrat</span>
+                        <span className="footer-brand-text">Made by Campus Beaupeyrat</span>
                     </div>
 
                     <div className="footer-info">
                         <div className="footer-info-block">
                             <span className="footer-info-title">Adresse</span>
-                            <span className="footer-info-text">9 ter Rue Pétinaud Beaupuyrat, 87000 Limoges</span>
+                            <span className="footer-info-text">9 ter Rue Pétinaud Beaupeyrat, 87000 Limoges</span>
                         </div>
                     </div>
                     <div className='footer-info-2'>

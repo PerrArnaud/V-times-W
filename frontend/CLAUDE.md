@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-V-Times is a French luxury watch customization and e-commerce platform. This is the frontend repository built with React and Vite.
+V-Time's is a French luxury watch customization and e-commerce platform. This is the frontend repository built with React and Vite.
 
 ## Commands
 
