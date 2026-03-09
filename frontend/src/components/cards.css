@@ -19,7 +19,7 @@
 .card-container.card-bg-black .card-image {
     object-fit: contain;
     object-position: center;
-    background-color: #1e1e1e;
+    background-color: #080b0a;
     transform: scale(1.9);
     transform-origin: center;
 }

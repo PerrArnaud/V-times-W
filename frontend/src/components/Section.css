@@ -47,6 +47,16 @@
     min-height: 60vh;
 }
 
+/* Sections qui n'affichent que du contenu (pas de titre/description/bouton) */
+.section-l.section-content-only {
+    min-height: auto;
+}
+
+.section.section-content-only {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
 .section-l .section-title {
     font-family: 'TAN - PEARL', 'Playfair Display', Georgia, serif;
     font-size: 1.8rem;
