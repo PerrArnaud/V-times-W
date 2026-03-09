@@ -51,7 +51,7 @@ function About() {
         </Section>
 
         <Section
-                size='M'
+                size='L'
                 context="services"
                 title="Nos services"
             >
@@ -73,7 +73,7 @@ function About() {
             </Section>
 
         <Section
-            size='L'
+            size='M'
             title="Vidéo de Présentation"> 
             <div className="about-video-row">
                         <a

@@ -32,9 +32,25 @@
     border-radius: 30px;
 }
 
+.about-text {
+    max-width: 1000px;
+    margin: 10px auto;
+    line-height: 1.75;
+    text-align: center;
+}
+
+.section-children {
+    padding : 1rem;
+}
+
 @media (max-width: 768px) {
     .about-video-row {
         align-items: center;
         text-align: center;
+    }
+
+    .about-text {
+        max-width: 100%;
+        padding: 0 1rem;
     }
 }

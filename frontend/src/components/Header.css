@@ -80,6 +80,7 @@
 
 /* Typographie Premium */
 .header-subtitle {
+    font-family: 'TAN - PEARL', 'Playfair Display', Georgia, serif;
     display: block;
     font-size: 1rem;
     text-transform: uppercase;
