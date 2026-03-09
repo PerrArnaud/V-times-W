@@ -65,13 +65,13 @@ const Clock3D = ({ isExploded = false, clockConfig = {} }) => {
 
         // Extract colors from config
         const primaryColor = hexToThreeColor(getColorHex(clockConfig['Couleur Primaire']));
-        const secondaryColor = hexToThreeColor(getColorHex(clockConfig['Couleur Secondaire']));
+        //const secondaryColor = hexToThreeColor(getColorHex(clockConfig['Couleur Secondaire']));
         // const hourColor = hexToThreeColor(getColorHex(clockConfig['Heure']));
         // const minuteColor = hexToThreeColor(getColorHex(clockConfig['Minute']));
         const handsColorName = clockConfig['Heure et Minute'] || clockConfig['Heure'] || clockConfig['Minute'];
         const hourColor = hexToThreeColor(getColorHex(handsColorName));
         const minuteColor = hexToThreeColor(getColorHex(handsColorName));
-        // const secondColor = hexToThreeColor(getColorHex(clockConfig['Seconde']));
+        const secondColor = hexToThreeColor(getColorHex(clockConfig['Seconde'] || handsColorName));
 
         // Adjust camera distance based on viewport size
         const getCameraDistance = (w) => {

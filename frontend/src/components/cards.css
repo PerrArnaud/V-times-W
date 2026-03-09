@@ -19,7 +19,7 @@
 .card-container.card-bg-black .card-image {
     object-fit: contain;
     object-position: center;
-    background-color: #1e1e1e;
+    background-color: #080b0a;
     transform: scale(1.9);
     transform-origin: center;
 }
@@ -85,7 +85,7 @@
 
 .card-subtitle {
     color: rgba(255, 255, 255, 0.9);
-    font-family: sans-serif;
+    font-family: 'TAN - PEARL', 'Playfair Display', Georgia, serif;
     font-size: 1rem;
     letter-spacing: 1px;
     text-transform: uppercase;

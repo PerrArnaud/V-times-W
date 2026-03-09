@@ -30,6 +30,10 @@ function Section({
     const bgStyle = bgImage ? { backgroundImage: `url(${bgImage})` } : {};
     const bgClass = bgImage ? 'section-bg' : '';
 
+    const shouldShowButton = Boolean(showButton && finalButtonText && finalButtonLink);
+    const hasHeaderContent = Boolean(subtitle || title || description || shouldShowButton);
+    const contentOnlyClass = hasHeaderContent ? '' : ' section-content-only';
+
     // Section S - Minimaliste avec titre serif
     if (sizeClass === 's') {
         return (
@@ -83,12 +87,12 @@ function Section({
 
     // Section par défaut (L, M sans image)
     return (
-        <section className={`section section-${sizeClass} ${bgClass}`} style={bgStyle}>
+        <section className={`section section-${sizeClass}${contentOnlyClass} ${bgClass}`} style={bgStyle}>
             {bgImage && <div className="section-overlay" />}
             {subtitle && <span className="section-subtitle">{subtitle}</span>}
-            <h1 className="section-title">{title}</h1>
-            <p className="section-description">{description}</p>
-            {showButton && finalButtonText && finalButtonLink && (
+            {title && <h1 className="section-title">{title}</h1>}
+            {description && <p className="section-description">{description}</p>}
+            {shouldShowButton && (
                 <Link to={finalButtonLink} className="section-button">
                     {finalButtonText}
                 </Link>

@@ -3,9 +3,9 @@ import './Presales.css';
 
 const productOptions = [
     { value: '', label: 'Sélectionnez un produit' },
-    { value: 'vinyle-noir', label: 'Vinyle Noir (20,00 €)' },
-    { value: 'vinyle-rouge', label: 'Vinyle Rouge (25,00 €)' },
-    { value: 'edition-limitee', label: 'Édition Limitée (35,00 €)' }
+    { value: 'gamme-essentielle', label: 'Gamme Essentielle (20,00 €)' },
+    { value: 'gamme-premium', label: 'Gamme Premium (25,00 €)' },
+    { value: 'gamme-personnalisee', label: 'Gamme Personnalisée (35,00 €)' }
 ];
 
 function Presales() {
