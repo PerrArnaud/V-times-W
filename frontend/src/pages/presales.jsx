@@ -11,9 +11,35 @@ const productOptions = [
 function Presales() {
     const [status, setStatus] = useState('');
 
-    const handleSubmit = (event) => {
+    const url = import.meta.env.VITE_GOOGLE_APPS_SCRIPT_URL; // L'URL /exec de votre déploiement Google Apps Script ou par défaut dans le .env
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        setStatus('Votre pré-commande a été enregistrée avec succès !');
+        setStatus('Envoi en cours...');
+
+        // Récupération des données du formulaire grâce aux attributs "name"
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            // On utilise fetch avec mode: 'no-cors' pour éviter les erreurs de sécurité (CORS) avec Google Apps Script
+            await fetch(url, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            // Note : Avec 'no-cors', on ne peut pas lire la réponse JSON du script.
+            // Si la requête ne "catch" pas d'erreur, on considère que c'est envoyé.
+            setStatus('Votre pré-commande a été enregistrée avec succès !');
+            event.target.reset(); // Reset du formulaire
+        } catch (error) {
+            console.error("Erreur React Fetch:", error);
+            setStatus('Erreur lors de l\'envoi.');
+        }
     };
 
     return (

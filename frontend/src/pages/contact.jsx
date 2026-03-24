@@ -4,9 +4,31 @@ import './Contact.css';
 function Contact() {
     const [status, setStatus] = useState('');
 
-    const handleSubmit = (event) => {
+    const url = import.meta.env.VITE_GOOGLE_APPS_SCRIPT_CONTACT_URL;
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        setStatus('Votre message a été envoyé avec succès !');
+        setStatus('Envoi en cours...');
+
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            await fetch(url, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            setStatus('Votre message a été envoyé avec succès !');
+            event.target.reset();
+        } catch (error) {
+            console.error("Erreur React Fetch:", error);
+            setStatus('Erreur lors de l\'envoi.');
+        }
     };
 
     return (
